@@ -1,9 +1,9 @@
 
 <!-- i want to populate the html table once the incomeAndMetrics is updated from the fetch component -->
 <template>
-  <h1>table</h1>
-  <div class="table" v-if="incomeAndMetrics.length > 0">
+  <div class="table-wrapper" v-if="incomeAndMetrics.length > 0">
     <table>
+      <caption>Table</caption>
       <thead>
         <tr>
           <th>Nyckel tal</th>
@@ -97,67 +97,54 @@ export default {
 </script>
 
 <style scoped>
-* {
-    color: #fff;
-    --background-color: rgb(11, 20, 25);
-    --primary-color: #414141;
-    --secondary-color: #333;
-    --tertiary-color: #343434;
-    --text-color: #fff;
-    --border-color: #000000;
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
-    font-family: 'Inter', sans-serif;
-    font-size: 16px;
+
+.table-wrapper {
+  border: 1px solid #00fe48;
+  display: flex;
+  width: fit-content;
+  max-width: 90vw;
+  padding: 10px;
+  font-size: smaller;
+  font-family: inter;
 }
-* {
-  max-width: 100%;
-}
+
 table {
-    box-sizing: border-box;
-    background-color: var(--primary-color);
-    color: var(--text-color);
-    max-width: 100vw;
-    height: fit-content;
-    width: 100%;
+  box-sizing: border-box;
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  height: fit-content;
+  width: 100%;
+  max-width: 100vw;
+  border-collapse: collapse;
 }
-.table {
-    display: flex;
-    width: fit-content;
-    max-width: 90vw;
-    padding: 10px;
-    font-size: smaller;
-    font-family: inter;
-}
+
 th {
-    border: 1px solid var(--border-color);
-    padding: 5px;
-    height: fit-content;
-    color: rgb(255, 255, 255);
-    text-align: center;
+  padding: 5px;
+  height: fit-content;
+  color: rgb(255, 255, 255);
+  text-align: center;
 }
 
 td {
-    border: 1px solid var(--border-color);
-    box-sizing: border-box;
-    height: fit-content;
-    width: fit-content;
-    text-align: center;
-    padding: 0;
-    margin: 0;
+  padding: 5px;
+  box-sizing: border-box;
+  height: fit-content;
+  max-width: 200px;
+  text-align: center;
 }
+
 td:nth-child(1) {
-    width: 200px;
-    text-align: left;
+  width: fit-content;
+  text-align: left;
 }
 
 td:nth-child(even) {
-    background: var(--primary-color);
-    color: var(--text-color);
+  background: var(--primary-color);
+  color: var(--text-color);
 }
 
 td:nth-child(odd) {
-    background: var(--tertiary-color);
-    color: var(--text-color);
+  background: var(--tertiary-color);
+  color: var(--text-color);
 }
-
 </style>
