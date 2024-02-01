@@ -24,31 +24,46 @@ export default {
     data() {
         return {
             // Component's local state
-            ticker: "",
-            IncomeAndMetrics: [],
-            apikey: "1z3Eat6B3MbUU0ayvXDBXEt4D82W1Zmo",
+            ticker: "", // Input field value for stock ticker
+            IncomeAndMetrics: [], // Array to store fetched data
+            apikey: "1z3Eat6B3MbUU0ayvXDBXEt4D82W1Zmo", // API key for financial data
         };
     },
     methods: {
         // Define methods for your component
         async fetchAndDisplayData() {
             try {
+                // planing to add 
+                // https://financialmodelingprep.com/api/v3/quote/AAPL,FB,GOOG?apikey= 
+                // 'https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/AAPL?apikey=1z3Eat6B3MbUU0ayvXDBXEt4D82W1Zmo'
+
+                // Fetch income data from API
                 const incomeData = await this.fetchApiData(
-                    `income-statement/${this.ticker}`
+                    `v3/income-statement/${this.ticker}?period=annualy&apikey=`
                 );
+                // Fetch metrics data from API
                 const metricsData = await this.fetchApiData(
-                    `key-metrics/${this.ticker}`
+                    `v3/key-metrics/${this.ticker}?period=annualy&apikey=`
                 );
+
+                // Fetch discounted cash flow data from API currently not working
                 const discountedCashFlow = await this.fetchApiData(
-                    `discounted-cash-flow/${this.ticker}`
+                    `v4/advanced_discounted_cash_flow?symbol=${this.ticker}&apikey=`
                 );
+
+                // Combine fetched data into a single array
                 const combined = this.combineData(
                     incomeData,
                     metricsData,
                     discountedCashFlow
                 );
-                this.IncomeAndMetrics = combined.splice(0, 5); // Update the value of IncomeAndMetrics instead of pushing to it
+
+                // Update the value of IncomeAndMetrics instead of pushing to it
+                this.IncomeAndMetrics = combined.splice(0, 5);
+
+                // Emit event to notify other components about the updated data
                 EventBus.emit('incomeAndMetricsChanged', this.IncomeAndMetrics);
+
                 console.log(combined, ' combinedData from fetch.vue');
                 console.log(this.IncomeAndMetrics, ' IncomeAndMetrics from fetch.vue');
             } catch (error) {
@@ -56,9 +71,11 @@ export default {
             }
         },
         async fetchApiData(endpoint) {
-            const url = `https://financialmodelingprep.com/api/v3/${endpoint}?period=annualy&apikey=${this.apikey}`;
+            const url = `https://financialmodelingprep.com/api/${endpoint}${this.apikey}`;
             try {
+                // Make API request using axios
                 const response = await axios.get(url);
+                console.log(response.data, 'response from fetch.vue');
                 return response.data;
             } catch (error) {
                 console.error("Error fetching data:", error);
@@ -87,6 +104,7 @@ export default {
                     combinedData.push({ ...discounted, date: discounted.date });
                 }
             }
+            console.log(discountedCashFlow, 'combinedData from fetch.vue');
             return combinedData;
         },
         
