@@ -6,7 +6,6 @@
             <img src="../assets/search.png" alt="search for ticker" />
         </button>
     </div>
-
 </template>
   
 <script>
@@ -23,10 +22,12 @@ export default {
     },
     data() {
         return {
-            // Component's local state
+
             ticker: "", // Input field value for stock ticker
             IncomeAndMetrics: [], // Array to store fetched data
             apikey: "1z3Eat6B3MbUU0ayvXDBXEt4D82W1Zmo", // API key for financial data
+            // Define mapping of long keys to shorter names the keys are the iriginal keys from the API and the values are the new keys
+ 
         };
     },
     methods: {
@@ -39,16 +40,16 @@ export default {
 
                 // Fetch income data from API
                 const incomeData = await this.fetchApiData(
-                    `v3/income-statement/${this.ticker}?period=annualy&apikey=`
+                    `v3/income-statement/${this.ticker}?period=annually`
                 );
                 // Fetch metrics data from API
                 const metricsData = await this.fetchApiData(
-                    `v3/key-metrics/${this.ticker}?period=annualy&apikey=`
+                    `v3/key-metrics/${this.ticker}?period=annually`
                 );
 
                 // Fetch discounted cash flow data from API currently not working
                 const discountedCashFlow = await this.fetchApiData(
-                    `v4/advanced_discounted_cash_flow?symbol=${this.ticker}&apikey=`
+                    `v4/advanced_discounted_cash_flow?symbol=${this.ticker}`
                 );
 
                 // Combine fetched data into a single array
@@ -58,7 +59,6 @@ export default {
                     discountedCashFlow
                 );
 
-                // Update the value of IncomeAndMetrics instead of pushing to it
                 this.IncomeAndMetrics = combined.splice(0, 5);
 
                 // Emit event to notify other components about the updated data
@@ -71,11 +71,11 @@ export default {
             }
         },
         async fetchApiData(endpoint) {
-            const url = `https://financialmodelingprep.com/api/${endpoint}${this.apikey}`;
+            const url = `https://financialmodelingprep.com/api/${endpoint}&apikey=${this.apikey}`;
             try {
                 // Make API request using axios
                 const response = await axios.get(url);
-                console.log(response.data, 'response from fetch.vue');
+                // console.log(response.data, 'response from fetch.vue');
                 return response.data;
             } catch (error) {
                 console.error("Error fetching data:", error);
@@ -83,31 +83,59 @@ export default {
             }
 
         },
+        // Example mapping of long keys to shorter names
+
+
+        // Function to rename keys based on the mapping
+        
         combineData(incomeData, metricsData, discountedCashFlow) {
-            if (!Array.isArray(incomeData) || !Array.isArray(metricsData)) {
-                console.error("Data is not in array format from combined data :", { incomeData, metricsData, discountedCashFlow});
+            if (!Array.isArray(incomeData) || !Array.isArray(metricsData) || !Array.isArray(discountedCashFlow)) {
+                console.error("Data is not in array format:", { incomeData, metricsData, discountedCashFlow });
                 return [];
             }
+
             const combinedData = [];
             const maxLength = Math.max(incomeData.length, metricsData.length, discountedCashFlow.length);
             for (let i = 0; i < maxLength; i++) {
-                const income = incomeData[i];
-                const metrics = metricsData[i];
-                const discounted = discountedCashFlow[i];
-                if (income && metrics && discounted) {
-                    combinedData.push({ ...income, ...metrics, ...discounted, date: income.date });
-                } else if (income) {
-                    combinedData.push({ ...income, date: income.date });
-                } else if (metrics) {
-                    combinedData.push({ ...metrics, date: metrics.date });
-                } else if (discounted) {
-                    combinedData.push({ ...discounted, date: discounted.date });
+                let combinedObject = {};
+                const income = incomeData[i] || {};
+                const metrics = metricsData[i] || {};
+                const discounted = discountedCashFlow[i] || {};
+
+                // Combine the data from different sources
+                combinedObject = { ...income, ...metrics, ...discounted };
+
+                // Ensure there's a date in the combined object
+                if (income.date) {
+                    combinedObject.date = income.date;
+                } else if (metrics.date) {
+                    combinedObject.date = metrics.date;
+                } else if (discounted.date) {
+                    combinedObject.date = discounted.date;
                 }
+
+                // Rename keys of the combinedObject using the component's method and keyMapping
+        
+
+                // Helper function defined within combineData to ensure access to 'combinedObject'
+                const removeLastTwoKeyValues = (obj) => {
+                    const keys = Object.keys(obj);
+                    keys.forEach((key) => {
+                        if (typeof obj[key] === 'string' && obj[key].includes('http')) {
+                            delete obj[key];
+                        }
+                    });
+                };
+
+                // Remove the last two key-value pairs from the combined object
+                removeLastTwoKeyValues(combinedObject);
+
+                // Push the processed object to the combinedData array
+                combinedData.push(combinedObject);
             }
-            console.log(discountedCashFlow, 'combinedData from fetch.vue');
+            console.log(this.keyMapping, 'keyMapping from fetch.vue')
             return combinedData;
         },
-        
     },
     computed: {
         // Define computed properties for dynamic calculations
@@ -128,9 +156,10 @@ export default {
     justify-content: center;
     align-items: center;
     margin: 1rem;
-    
+
 }
-.input-field{
+
+.input-field {
     outline: none;
     border: none;
     height: 2rem;
@@ -141,15 +170,15 @@ export default {
     font-weight: 500;
     font-family: 'Inter', sans-serif;
     background-color: rgb(43, 43, 43);
-    
+
 }
 
-.input-field:focus{
+.input-field:focus {
     outline: none;
     border: 1px solid #004daa;
 }
 
-.fetch-btn{
+.fetch-btn {
     height: 2rem;
     width: 2rem;
     border-radius: 0 5px 5px 0;
@@ -158,5 +187,4 @@ export default {
     background-color: rgb(35, 142, 133);
     cursor: pointer;
 }
-
 </style>

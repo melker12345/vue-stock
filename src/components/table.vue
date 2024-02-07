@@ -15,10 +15,10 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(value, key) in incomeAndMetrics[0]" :key="key" v-show="!isMinimized || index === 0">
+        <tr v-for="(value, key) in keyMapping" :key="key" v-show="!isMinimized || index === 0">
           <td>{{ key.toUpperCase() }}</td>
           <td v-for="data in incomeAndMetrics" :key="data.date + key">
-            {{ formatNumber(data[key]) }}
+            {{ formatNumber(data[value]) }}
           </td>
         </tr>
       </tbody>
@@ -37,23 +37,117 @@ export default {
   name: 'table',
   data() {
     return {
-      isMinimized: true,
+      isMinimized: false,
       incomeAndMetrics: [],
+      keyMapping: {
+        accDate: "acceptedDate",
+        avgInv: "averageInventory",
+        avgPay: "averagePayables",
+        avgRecv: "averageReceivables",
+        bvPerSh: "bookValuePerShare",
+        calYear: "calendarYear",
+        capexPerSh: "capexPerShare",
+        capexToDep: "capexToDepreciation",
+        capexToOCF: "capexToOperatingCashFlow",
+        capexToRev: "capexToRevenue",
+        cashPerSh: "cashPerShare",
+        cikCode: "cik",
+        costExp: "costAndExpenses",
+        costRev: "costOfRevenue",
+        curRatio: "currentRatio",
+        date: "date",
+        daysInvHand: "daysOfInventoryOnHand",
+        daysPayOut: "daysPayablesOutstanding",
+        daysSalesOut: "daysSalesOutstanding",
+        debtToAst: "debtToAssets",
+        debtToEq: "debtToEquity",
+        deprAmort: "depreciationAndAmortization",
+        divYield: "dividendYield",
+        earnYield: "earningsYield",
+        ebitda: "ebitda",
+        ebitdaRat: "ebitdaratio",
+        entValue: "enterpriseValue",
+        evOverEbitda: "enterpriseValueOverEBITDA",
+        eps: "eps",
+        epsDil: "epsdiluted",
+        evToFcf: "evToFreeCashFlow",
+        evToOCF: "evToOperatingCashFlow",
+        evToSales: "evToSales",
+        fillDate: "fillingDate",
+        fcfPerSh: "freeCashFlowPerShare",
+        fcfYield: "freeCashFlowYield",
+        genAdmExp: "generalAndAdministrativeExpenses",
+        grahamNet: "grahamNetNet",
+        grahamNum: "grahamNumber",
+        grossProf: "grossProfit",
+        grossProfRat: "grossProfitRatio",
+        incBfrTax: "incomeBeforeTax",
+        incBfTaxRat: "incomeBeforeTaxRatio",
+        incTaxExp: "incomeTaxExpense",
+        incQual: "incomeQuality",
+        intExp: "interestExpense",
+        intInc: "interestIncome",
+        invTurn: "inventoryTurnover",
+        investCap: "investedCapital",
+        mktCap: "marketCap",
+        ncaValue: "netCurrentAssetValue",
+        netDebtEbitda: "netDebtToEBITDA",
+        netInc: "netIncome",
+        netIncPerSh: "netIncomePerShare",
+        netIncRat: "netIncomeRatio",
+        ocfPerSh: "operatingCashFlowPerShare",
+        opExp: "operatingExpenses",
+        opInc: "operatingIncome",
+        opIncRat: "operatingIncomeRatio",
+        othExp: "otherExpenses",
+        payTurn: "payablesTurnover",
+        payoutRat: "payoutRatio",
+        pbRat: "pbRatio",
+        peRat: "peRatio",
+        period: "period",
+        pfcfRat: "pfcfRatio",
+        pocfRat: "pocfratio",
+        ptSalesRat: "priceToSalesRatio",
+        ptbRat: "ptbRatio",
+        recvTurn: "receivablesTurnover",
+        repCurr: "reportedCurrency",
+        rndToRev: "researchAndDdevelopementToRevenue",
+        rtnTangAst: "returnOnTangibleAssets",
+        revenue: "revenue",
+        revPerSh: "revenuePerShare",
+        rndExp: "researchAndDevelopmentExpenses",
+        roe: "roe",
+        roic: "roic",
+        sgaToRev: "salesGeneralAndAdministrativeToRevenue",
+        sellMktExp: "sellingAndMarketingExpenses",
+        sgaExp: "sellingGeneralAndAdministrativeExpenses",
+        shrEqPerSh: "shareholdersEquityPerShare",
+        sbcToRev: "stockBasedCompensationToRevenue",
+        symbol: "symbol",
+        tangAstVal: "tangibleAssetValue",
+        tangBkValPerSh: "tangibleBookValuePerShare",
+        totOthIncExpN: "totalOtherIncomeExpensesNet",
+        wAvgShsOut: "weightedAverageShsOut",
+        wAvgShsOutDil: "weightedAverageShsOutDil",
+        workCap: "workingCapital",
+      },
     };
   },
   methods: {
     toggleTable() {
-      this.isMinimized = !this.isMinimized;
+      this.isMinimized = this.isMinimized;
     },
     addToLocalStorage(stockData) {
       let savedStocks = JSON.parse(localStorage.getItem('savedStocks')) || [];
       savedStocks.push(this.incomeAndMetrics);
       localStorage.setItem('savedStocks', JSON.stringify(savedStocks));
+      console.log(this.incomeAndMetrics, 'from table.vue');
     },
     removeFromLocalStorage(index) {
       let savedStocks = JSON.parse(localStorage.getItem('savedStocks')) || [];
       savedStocks.splice(index, 1);
       localStorage.setItem('savedStocks', JSON.stringify(savedStocks));
+      console.log(this.incomeAndMetrics, 'from table.vue');
     },
     formatNumber(value, currency) {
       currency = this.incomeAndMetrics[0].reportedCurrency;
@@ -73,6 +167,18 @@ export default {
         return value;
       }
     },
+    renameKeys(obj, keyMapping) {
+      const renamedObj = {};
+      for (let key in obj) {
+        if (keyMapping.hasOwnProperty(key)) {
+          renamedObj[keyMapping[key]] = obj[key];
+        } else {
+          renamedObj[key] = obj[key];
+        }
+      }
+      return renamedObj;
+    },
+    
   },
   computed: {
     formattedIncomeAndMetrics() {
@@ -136,10 +242,11 @@ body {
 
 .table th,
 .table td {
-  max-width: 200px;
-  padding: 12px 15px;
-  text-align: left;
+  max-width: 225px;
+  padding: 0px;
+  text-align: center;
   border-bottom: 1px solid #ddd;
+  border: 1px solid black;
 }
 
 .table th {
