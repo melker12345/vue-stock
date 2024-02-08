@@ -1,4 +1,5 @@
 <template>
+  {{ indexChange }}
   <header class="navbar">
     <div>
       <button id="theme-toggle" @click="toggleTheme()">◑</button>
@@ -13,47 +14,78 @@
       </button>
     </div>
 
-    <div class="nav-logo">
-      
-      <div class="index-con">
-        <div class="high">
-          <svg xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" viewBox="0 0 24 24" id="up-arrow">
-            <path
-              d="M17.71,11.29l-5-5a1,1,0,0,0-.33-.21,1,1,0,0,0-.76,0,1,1,0,0,0-.33.21l-5,5a1,1,0,0,0,1.42,1.42L11,9.41V17a1,1,0,0,0,2,0V9.41l3.29,3.3a1,1,0,0,0,1.42,0A1,1,0,0,0,17.71,11.29Z">
-            </path>
-          </svg>
-          <p>1.23%</p>
-        </div>
-  
-        <div class="low">
-        <svg xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" viewBox="0 0 24 24" id="down-arrow">
-          <path
-            d="M17.71,11.29a1,1,0,0,0-1.42,0L13,14.59V7a1,1,0,0,0-2,0v7.59l-3.29-3.3a1,1,0,0,0-1.42,1.42l5,5a1,1,0,0,0,.33.21.94.94,0,0,0,.76,0,1,1,0,0,0,.33-.21l5-5A1,1,0,0,0,17.71,11.29Z">
-          </path>
-        </svg>
-        <p>3.31%</p>
-      </div>
 
-
-      </div>
-<!--     
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
-          <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
-          <polyline points="16 7 22 7 22 13"></polyline>
-        </svg> -->
-        <span class="font-semibold">OMX</span>
-    
-    </div>
   </header>
   <div>
-
-    <router-view></router-view>
     <dashboard />
   </div>
 </template>
 
+<script>
+import Dashboard from './components/Dashboard.vue';
+import fetch from './components/fetch.vue'
+import axios from 'axios';
+
+
+export default {
+  name: 'App',
+  components: {
+    fetch,
+    Dashboard
+  },
+  data() {
+    return {
+      indexChange: '', // this will hold the value from Fetch.vue
+      indexList: ['^OMXS30', '^W2DOW']
+    };
+  },
+  methods: {
+
+    async fetchIndex() {
+      try {
+        let indexChange = '';
+        for (const index of this.indexList) {
+          const response = await axios.get(`https://financialmodelingprep.com/api/v3/quote/${index}?apikey=1z3Eat6B3MbUU0ayvXDBXEt4D82W1Zmo`);
+          let data = response.data[0];
+          // structure of the response [{...}]
+          if (data.change > 0) {
+            data.change = '+' + data.change;
+          }
+          indexChange += data.change + ' ' + data.symbol.slice(1) + ' ';
+          console.log(indexChange, 'indexChange');
+        }
+        this.indexChange = indexChange.trim();
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    },
+
+
+    toggleTheme() {
+      const currentTheme = document.body.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      document.body.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+    },
+    checkTheme() {
+      const currentTheme = localStorage.getItem('theme') || 'light';
+      document.body.setAttribute('data-theme', currentTheme);
+    }
+  },
+  mounted() {
+    this.checkTheme();
+    this.fetchIndex();
+  }
+};
+</script>
+
 <style scoped>
+.index-con {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+}
 
 .high {
   display: flex;
@@ -75,6 +107,26 @@
   margin-right: 16px;
 }
 
+.index-symbol {
+  margin-right: 18px;
+}
+
+/* Logo Styles */
+.nav-logo {
+  display: flex;
+  align-items: center;
+}
+
+.nav-logo a {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  color: var(--navbar-text-color);
+}
+
+.nav-logo svg {
+  margin-right: 10px;
+}
 
 * {
   margin: 0;
@@ -120,22 +172,7 @@ body {
   color: var(--button-hover-text-color);
 }
 
-/* Logo Styles */
-.nav-logo {
-  display: flex;
-  align-items: center;
-}
 
-.nav-logo a {
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  color: var(--navbar-text-color);
-}
-
-.nav-logo svg {
-  margin-right: 10px;
-}
 
 /* Theme Toggle Button */
 #theme-toggle {
@@ -158,34 +195,6 @@ svg {
   width: 24px;
   height: 24px;
 }
-
-
 </style>
 
 
-
-<script>
-import Dashboard from './components/Dashboard.vue';
-
-export default {
-  name: 'App',
-  components: {
-    Dashboard
-  },
-  methods: {
-    toggleTheme() {
-      const currentTheme = document.body.getAttribute('data-theme');
-      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-      document.body.setAttribute('data-theme', newTheme);
-      localStorage.setItem('theme', newTheme);
-    },
-    checkTheme() {
-      const currentTheme = localStorage.getItem('theme') || 'light';
-      document.body.setAttribute('data-theme', currentTheme);
-    }
-  },
-  mounted() {
-    this.checkTheme();
-  }
-};
-</script>

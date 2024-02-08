@@ -2,6 +2,10 @@ redo the add / remove from local Storage buttons
   toggle button 
 
 add omx/nasdaq to nav
+    different api [ ]
+    
+
+
 
 button for minimized
 

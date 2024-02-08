@@ -20,7 +20,12 @@ export default {
     components: {
         fetch,
         'table-component': TableComponent,
-    }
+    },
+    data() {
+        return {
+           // this will hold the value from Fetch.vue
+        };
+    },
 };
 </script>
 
@@ -33,14 +38,10 @@ body {
 .dashBoard-header {
     height: 2rem;
     margin: 1rem;
-    height: fit-content;
-
 }
 
 .dashBoard-header h4 {
-
     padding: 0;
-
 }
 
 .dashBoard {

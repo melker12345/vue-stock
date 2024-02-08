@@ -1,5 +1,5 @@
 <template>
-  <button @click="toggleTable">Minimize</button>
+  <button @click="toggleTable">{{ ifMinimized }}</button>
   <button @click="addToLocalStorage()">ADD TO LOCAL</button>
   <button @click="removeFromLocalStorage()">REMOVE LOCAL</button>
   <div class="table-container">
@@ -35,7 +35,8 @@ export default {
   name: 'table',
   data() {
     return {
-      isMinimized: false,
+      isMinimized: true,
+      ifMinimized: 'expand',
       incomeAndMetrics: [],
       keyMapping: {
         "Accepted Date": "acceptedDate",
@@ -134,6 +135,11 @@ export default {
   methods: {
     toggleTable() {
       this.isMinimized = !this.isMinimized;
+      if (this.isMinimized) {
+        this.ifMinimized = 'expand';
+      } else  {        
+        this.ifMinimized = 'hide';
+      }
     },
     addToLocalStorage(stockData) {
       let savedStocks = JSON.parse(localStorage.getItem('savedStocks')) || [];

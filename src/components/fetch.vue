@@ -16,9 +16,7 @@ export default {
     name: 'fetch', // Component name
     components: {
         // Import and use other components if needed
-    },
-    props: {
-        // Declare props to receive data from parent component
+
     },
     data() {
         return {
@@ -27,10 +25,11 @@ export default {
             IncomeAndMetrics: [], // Array to store fetched data
             apikey: "1z3Eat6B3MbUU0ayvXDBXEt4D82W1Zmo", // API key for financial data
             // Define mapping of long keys to shorter names the keys are the iriginal keys from the API and the values are the new keys
- 
         };
     },
+
     methods: {
+       
         // Define methods for your component
         async fetchAndDisplayData() {
             try {
@@ -64,8 +63,7 @@ export default {
                 // Emit event to notify other components about the updated data
                 EventBus.emit('incomeAndMetricsChanged', this.IncomeAndMetrics);
 
-                console.log(combined, ' combinedData from fetch.vue');
-                console.log(this.IncomeAndMetrics, ' IncomeAndMetrics from fetch.vue');
+                
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
@@ -87,7 +85,7 @@ export default {
 
 
         // Function to rename keys based on the mapping
-        
+
         combineData(incomeData, metricsData, discountedCashFlow) {
             if (!Array.isArray(incomeData) || !Array.isArray(metricsData) || !Array.isArray(discountedCashFlow)) {
                 console.error("Data is not in array format:", { incomeData, metricsData, discountedCashFlow });
@@ -115,7 +113,7 @@ export default {
                 }
 
                 // Rename keys of the combinedObject using the component's method and keyMapping
-        
+
 
                 // Helper function defined within combineData to ensure access to 'combinedObject'
                 const removeLastTwoKeyValues = (obj) => {
@@ -133,22 +131,16 @@ export default {
                 // Push the processed object to the combinedData array
                 combinedData.push(combinedObject);
             }
-            console.log(this.keyMapping, 'keyMapping from fetch.vue')
             return combinedData;
         },
     },
-    computed: {
-        // Define computed properties for dynamic calculations
+    created() {
+      
     },
-    watch: {
-        // Watchers to react to changes in props or data
-    },
-    // Other component options like lifecycle hooks can be added here
 };
-</script>
+</script>;
   
 <style scoped>
-
 .fetch-con {
     display: flex;
     flex-direction: row;
