@@ -148,7 +148,6 @@ export default {
 </script>
   
 <style scoped>
-/* CSS styles specific to this component. 'scoped' ensures styles are local to this component only */
 
 .fetch-con {
     display: flex;
@@ -161,30 +160,31 @@ export default {
 
 .input-field {
     outline: none;
-    border: none;
-    height: 2rem;
+    height: 3rem;
     width: 10rem;
-    border-radius: 50px 0 0 50px;
+    border-radius: 15px 0px 0px 15px;
     padding: 8px;
-    font-size: 1rem;
+    font-size: 18px;
     font-weight: 500;
     font-family: 'Inter', sans-serif;
-    background-color: rgb(43, 43, 43);
+    border: 1px solid #727272;
+    background-color: var(--main-bg-color);
+    color: var(--main-text-color);
 
 }
 
 .input-field:focus {
     outline: none;
-    border: 1px solid #004daa;
+    border: 1px solid #a8a8a8;
 }
 
 .fetch-btn {
-    height: 2rem;
-    width: 2rem;
-    border-radius: 0 5px 5px 0;
+    height: 3rem;
+    width: 3rem;
+    border-radius: 0;
     border: none;
     outline: none;
-    background-color: rgb(35, 142, 133);
+    background-color: #3a99ff;
     cursor: pointer;
 }
 </style>

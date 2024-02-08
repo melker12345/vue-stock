@@ -1,11 +1,10 @@
-
-<!-- i want to populate the html table once the incomeAndMetrics is updated from the fetch component -->
-
-
 <template>
-  <div class="table-container" @click="toggleTable">
+  <button @click="toggleTable">Minimize</button>
+  <button @click="addToLocalStorage()">ADD TO LOCAL</button>
+  <button @click="removeFromLocalStorage()">REMOVE LOCAL</button>
+  <div class="table-container">
+
     <table class="table">
-      <caption>Table</caption>
       <thead>
         <tr>
           <th>Nyckel tal</th>
@@ -25,8 +24,7 @@
     </table>
     <!-- Buttons here -->
   </div>
-  <button @click="addToLocalStorage()">ADD TO LOCAL</button>
-  <button @click="removeFromLocalStorage()">REMOVE LOCAL</button>
+
 </template>
 
 
@@ -40,102 +38,102 @@ export default {
       isMinimized: false,
       incomeAndMetrics: [],
       keyMapping: {
-        accDate: "acceptedDate",
-        avgInv: "averageInventory",
-        avgPay: "averagePayables",
-        avgRecv: "averageReceivables",
-        bvPerSh: "bookValuePerShare",
-        calYear: "calendarYear",
-        capexPerSh: "capexPerShare",
-        capexToDep: "capexToDepreciation",
-        capexToOCF: "capexToOperatingCashFlow",
-        capexToRev: "capexToRevenue",
-        cashPerSh: "cashPerShare",
-        cikCode: "cik",
-        costExp: "costAndExpenses",
-        costRev: "costOfRevenue",
-        curRatio: "currentRatio",
-        date: "date",
-        daysInvHand: "daysOfInventoryOnHand",
-        daysPayOut: "daysPayablesOutstanding",
-        daysSalesOut: "daysSalesOutstanding",
-        debtToAst: "debtToAssets",
-        debtToEq: "debtToEquity",
-        deprAmort: "depreciationAndAmortization",
-        divYield: "dividendYield",
-        earnYield: "earningsYield",
-        ebitda: "ebitda",
-        ebitdaRat: "ebitdaratio",
-        entValue: "enterpriseValue",
-        evOverEbitda: "enterpriseValueOverEBITDA",
-        eps: "eps",
-        epsDil: "epsdiluted",
-        evToFcf: "evToFreeCashFlow",
-        evToOCF: "evToOperatingCashFlow",
-        evToSales: "evToSales",
-        fillDate: "fillingDate",
-        fcfPerSh: "freeCashFlowPerShare",
-        fcfYield: "freeCashFlowYield",
-        genAdmExp: "generalAndAdministrativeExpenses",
-        grahamNet: "grahamNetNet",
-        grahamNum: "grahamNumber",
-        grossProf: "grossProfit",
-        grossProfRat: "grossProfitRatio",
-        incBfrTax: "incomeBeforeTax",
-        incBfTaxRat: "incomeBeforeTaxRatio",
-        incTaxExp: "incomeTaxExpense",
-        incQual: "incomeQuality",
-        intExp: "interestExpense",
-        intInc: "interestIncome",
-        invTurn: "inventoryTurnover",
-        investCap: "investedCapital",
-        mktCap: "marketCap",
-        ncaValue: "netCurrentAssetValue",
-        netDebtEbitda: "netDebtToEBITDA",
-        netInc: "netIncome",
-        netIncPerSh: "netIncomePerShare",
-        netIncRat: "netIncomeRatio",
-        ocfPerSh: "operatingCashFlowPerShare",
-        opExp: "operatingExpenses",
-        opInc: "operatingIncome",
-        opIncRat: "operatingIncomeRatio",
-        othExp: "otherExpenses",
-        payTurn: "payablesTurnover",
-        payoutRat: "payoutRatio",
-        pbRat: "pbRatio",
-        peRat: "peRatio",
-        period: "period",
-        pfcfRat: "pfcfRatio",
-        pocfRat: "pocfratio",
-        ptSalesRat: "priceToSalesRatio",
-        ptbRat: "ptbRatio",
-        recvTurn: "receivablesTurnover",
-        repCurr: "reportedCurrency",
-        rndToRev: "researchAndDdevelopementToRevenue",
-        rtnTangAst: "returnOnTangibleAssets",
-        revenue: "revenue",
-        revPerSh: "revenuePerShare",
-        rndExp: "researchAndDevelopmentExpenses",
-        roe: "roe",
-        roic: "roic",
-        sgaToRev: "salesGeneralAndAdministrativeToRevenue",
-        sellMktExp: "sellingAndMarketingExpenses",
-        sgaExp: "sellingGeneralAndAdministrativeExpenses",
-        shrEqPerSh: "shareholdersEquityPerShare",
-        sbcToRev: "stockBasedCompensationToRevenue",
-        symbol: "symbol",
-        tangAstVal: "tangibleAssetValue",
-        tangBkValPerSh: "tangibleBookValuePerShare",
-        totOthIncExpN: "totalOtherIncomeExpensesNet",
-        wAvgShsOut: "weightedAverageShsOut",
-        wAvgShsOutDil: "weightedAverageShsOutDil",
-        workCap: "workingCapital",
+        "Accepted Date": "acceptedDate",
+        "Avg Inventory": "averageInventory",
+        "Avg Payables": "averagePayables",
+        "Avg Receivables": "averageReceivables",
+        "BookVal/Share": "bookValuePerShare",
+        "Calendar Year": "calendarYear",
+        "Capex/Share": "capexPerShare",
+        "CapexToDepr": "capexToDepreciation",
+        "CapexToOCF": "capexToOperatingCashFlow",
+        "CapexToRev": "capexToRevenue",
+        "Cash/Share": "cashPerShare",
+        "CIK Code": "cik",
+        "Cost Expenses": "costAndExpenses",
+        "Cost Revenue": "costOfRevenue",
+        "Current Ratio": "currentRatio",
+        "Date": "date",
+        "Days Inv Hand": "daysOfInventoryOnHand",
+        "Days Pay Out": "daysPayablesOutstanding",
+        "Days Sales Out": "daysSalesOutstanding",
+        "Debt To Assets": "debtToAssets",
+        "Debt To Equity": "debtToEquity",
+        "Depr Amort": "depreciationAndAmortization",
+        "Dividend Yield": "dividendYield",
+        "Earnings Yield": "earningsYield",
+        "EBITDA": "ebitda",
+        "EBITDA Ratio": "ebitdaratio",
+        "Enterprise Val": "enterpriseValue",
+        "EV Over EBITDA": "enterpriseValueOverEBITDA",
+        "EPS": "eps",
+        "EPS Diluted": "epsdiluted",
+        "EV To FCF": "evToFreeCashFlow",
+        "EV To OCF": "evToOperatingCashFlow",
+        "EV To Sales": "evToSales",
+        "Filling Date": "fillingDate",
+        "FCF/Share": "freeCashFlowPerShare",
+        "FCF Yield": "freeCashFlowYield",
+        "Gen Adm Expenses": "generalAndAdministrativeExpenses",
+        "Graham NetNet": "grahamNetNet",
+        "Graham Number": "grahamNumber",
+        "Gross Profit": "grossProfit",
+        "GrossProf Ratio": "grossProfitRatio",
+        "Inc Before Tax": "incomeBeforeTax",
+        "IncBfTax Ratio": "incomeBeforeTaxRatio",
+        "IncomeTax Expense": "incomeTaxExpense",
+        "Income Quality": "incomeQuality",
+        "Int Expense": "interestExpense",
+        "Int Income": "interestIncome",
+        "Inv Turnover": "inventoryTurnover",
+        "Invested Capital": "investedCapital",
+        "Market Cap": "marketCap",
+        "NCA Value": "netCurrentAssetValue",
+        "NetDebt To EBITDA": "netDebtToEBITDA",
+        "Net Income": "netIncome",
+        "NetInc/Share": "netIncomePerShare",
+        "NetInc Ratio": "netIncomeRatio",
+        "OCF/Share": "operatingCashFlowPerShare",
+        "Operating Exp": "operatingExpenses",
+        "Operating Inc": "operatingIncome",
+        "OperatingInc Rat": "operatingIncomeRatio",
+        "Other Expenses": "otherExpenses",
+        "Payables Turn": "payablesTurnover",
+        "Payout Ratio": "payoutRatio",
+        "PB Ratio": "pbRatio",
+        "PE Ratio": "peRatio",
+        "Period": "period",
+        "PFCF Ratio": "pfcfRatio",
+        "POCF Ratio": "pocfratio",
+        "PT Sales Ratio": "priceToSalesRatio",
+        "PTB Ratio": "ptbRatio",
+        "Recv Turnover": "receivablesTurnover",
+        "Reported Curr": "reportedCurrency",
+        "R&D To Revenue": "researchAndDdevelopementToRevenue",
+        "RTN Tang Assets": "returnOnTangibleAssets",
+        "Revenue": "revenue",
+        "Rev/Share": "revenuePerShare",
+        "R&D Expense": "researchAndDevelopmentExpenses",
+        "ROE": "roe",
+        "ROIC": "roic",
+        "SG&A To Rev": "salesGeneralAndAdministrativeToRevenue",
+        "Selling&Mkt Exp": "sellingAndMarketingExpenses",
+        "SG&A Expense": "sellingGeneralAndAdministrativeExpenses",
+        "ShrEq/Share": "shareholdersEquityPerShare",
+        "SBC To Revenue": "stockBasedCompensationToRevenue",
+        "Symbol": "symbol",
+        "Tangible Ast Val": "tangibleAssetValue",
+        "TangBkVal/Share": "tangibleBookValuePerShare",
+        "TotalOthIncExpN": "totalOtherIncomeExpensesNet",
+        "W AvgShs Out": "weightedAverageShsOut",
+        "W AvgShsOut Dil": "weightedAverageShsOutDil",
+        "Working Capital": "workingCapital",
       },
     };
   },
   methods: {
     toggleTable() {
-      this.isMinimized = this.isMinimized;
+      this.isMinimized = !this.isMinimized;
     },
     addToLocalStorage(stockData) {
       let savedStocks = JSON.parse(localStorage.getItem('savedStocks')) || [];
@@ -154,12 +152,12 @@ export default {
       if (typeof value === "number") {
         if (value >= 1000000) {
           return (
-            (value / 1e6).toFixed(0) + " M " + currency
+            (value / 1e6).toFixed(0) + "M " + currency
           );
         }
         if (value <= -1000000) {
           return (
-            (value / 1e6).toFixed(0) + " M " + currency
+            (value / 1e6).toFixed(0) + "M " + currency
           );
         }
         return value.toFixed(2).toLocaleString();
@@ -178,11 +176,11 @@ export default {
       }
       return renamedObj;
     },
-    
+
   },
   computed: {
     formattedIncomeAndMetrics() {
-      return JSON.stringify(this.incomeAndMetrics, null, 2); // Pretty print the array
+      return JSON.stringify(this.incomeAndMetrics, null, 2); 
     }
   },
   watch: {
@@ -193,12 +191,11 @@ export default {
   created() {
     EventBus.on('incomeAndMetricsChanged', (data) => {
       this.incomeAndMetrics = data;
-      console.log(this.incomeAndMetrics, 'from table.vue'); // Corrected log statement
+      console.log(this.incomeAndMetrics, 'from table.vue'); 
     });
   },
   beforeUnmount() {
     // Clean up the event listener, specify the function if necessary
-    EventBus.off('incomeAndMetricsChanged', this.someFunction); // 'this.someFunction' should be the same function used in EventBus.on
   }
 };
 </script>
@@ -209,8 +206,9 @@ export default {
   padding: 0;
   box-sizing: border-box;
   font-family: 'Arial', sans-serif;
-  background-color: #f5f5f5;
-  color: #333;
+  width: fit-content;
+  background-color: var(--main-bg-color);
+  color: var(--main-text-color);
 }
 
 body {
@@ -218,32 +216,29 @@ body {
   color: #f5f5f5;
   font-size: 16px;
   line-height: 1.6;
-  padding: 20px;
+  display: flex;
+
 }
 
 .table-container {
-  width: 100%;
+  width: fit-content;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow-x: auto;
-  margin: 20px 0;
-}
-
-.table-container {
-  cursor: pointer;
-  /* Indicates the table is clickable */
+  margin: 20px 20px;
 }
 
 .table {
   border-collapse: collapse;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 32px;
 }
 
 .table th,
 .table td {
   max-width: 225px;
-  padding: 0px;
+  padding: 15px;
   text-align: center;
   border-bottom: 1px solid #ddd;
   border: 1px solid black;
@@ -255,8 +250,8 @@ body {
   font-weight: bold;
 }
 
-.table tr:nth-child(even) {
-  background-color: #e5e5e5;
+tr:nth-child(even) {
+  background-color: #ff0000;
 }
 
 .table tr:hover {
@@ -267,7 +262,6 @@ body {
   font-weight: normal;
 }
 
-/* Additional Styling */
 .table-header {
   background-color: #007bff;
   color: #ffffff;
@@ -280,5 +274,20 @@ body {
 .highlight {
   color: #0056b3;
   font-weight: bold;
+}
+
+.table td:first-child {
+  font-weight: bold;
+}
+
+button{
+  margin: 20px;
+  padding: 10px 20px;
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
 }
 </style>

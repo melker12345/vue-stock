@@ -1,76 +1,22 @@
+redo the add / remove from local Storage buttons
+  toggle button 
 
-COMPONETS:
-Fetch
-Filter
-Display
+add omx/nasdaq to nav
 
-<template>
-  <div class="table" v-if="incomeAndMetrics.length > 0">
-    <table>
-      <thead>
-        <tr>
-          <th>Key</th>
-          <th v-for="(value, key) in incomeAndMetrics[0]" :key="key">
-            {{ key }}
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(data, index) in incomeAndMetrics" :key="index">
-          <td>{{ index }}</td>
-          <td v-for="(value, key) in data" :key="key">
-            {{ value }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <div class="buttons">
-      <button id="add" @click="addToLocalStorage">
-        <img src="assets/add.png" alt="add stock to local storage" />
-      </button>
-      <button id="remove" @click="removeFromLocalStorage(index)">
-        <img src="assets/remove.png" alt="remove from local storage" />
-      </button>
-    </div>
-  </div>
-</template>
+button for minimized
 
-<script>
-import { EventBus } from '../event-bus.js';
+minimized table looks shit
 
-export default {
-  name: 'table',
-  data() {
-    return {
-      incomeAndMetrics: [], // Data received from EventBus
-    };
-  },
-  methods: {
-    addToLocalStorage(stockData) {
-                    let savedStocks = JSON.parse(localStorage.getItem('savedStocks')) || [];
-                    savedStocks.push(stockData);
-                    localStorage.setItem('savedStocks', JSON.stringify(savedStocks));
-                },
-                removeFromLocalStorage(index) {
-                    this.combinedData.splice(index, 1);
-                    localStorage.setItem(
-                        "savedStocks",
-                        JSON.stringify(this.combinedData)
-                    );
-                },
-  },
-  created() {
-    EventBus.on('incomeAndMetricsChanged', (data) => {
-      this.incomeAndMetrics = data;
-    });
-  },
-  beforeUnmount() {
-    // Clean up the event listener
-    EventBus.off('incomeAndMetricsChanged');
-  }
-};
-</script>
 
-<style scoped>
-/* CSS styles specific to this component */
-</style>
+multiple tables 
+  list of table 
+
+filter 
+  allow to remove metric
+  fetch all with acceptible value
+
+information bubble
+  on hover show the respected explanation
+
+style
+
