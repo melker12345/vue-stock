@@ -212,7 +212,6 @@ export default {
   padding: 0;
   box-sizing: border-box;
   font-family: 'Arial', sans-serif;
-  width: fit-content;
   background-color: var(--main-bg-color);
   color: var(--main-text-color);
 }
@@ -223,14 +222,13 @@ body {
   font-size: 16px;
   line-height: 1.6;
   display: flex;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
 }
 
 .table-container {
-  width: fit-content;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   overflow-x: auto;
   margin: 20px 20px;
 }
