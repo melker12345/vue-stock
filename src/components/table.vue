@@ -1,42 +1,57 @@
 <template>
-  <button @click="toggleTable">{{ ifMinimized }}</button>
-  <button @click="addToLocalStorage()">ADD TO LOCAL</button>
-  <button @click="removeFromLocalStorage()">REMOVE LOCAL</button>
   <div class="table-container">
+    <div class="btn-con">
+      <button @click="toggleTable">{{ ifMinimized }}</button>
+      <button @click="addToLocalStorage()">ADD TO LOCAL</button>
+      <button @click="removeFromLocalStorage()">REMOVE LOCAL</button>
+    </div>
+    <table class="table" v-if="!isMinimized">
+    <thead>
+      <tr>
+        <th>Nyckel tal</th>
+        <th v-for="data in incomeAndMetrics" :key="data.date">
+          {{ data.symbol }} 
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="(value, key) in keyMapping" :key="key">
+        <td>{{ key.toUpperCase() }}</td>
+        <td v-for="data in incomeAndMetrics" :key="data.date + key">
+          {{ formatNumber(data[value]) }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Nyckel tal</th>
-          <th v-for="data in incomeAndMetrics" :key="data.date">
-            {{ data.symbol }}
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(value, key) in keyMapping" :key="key" v-show="!isMinimized || index === 0">
-          <td>{{ key.toUpperCase() }}</td>
-          <td v-for="data in incomeAndMetrics" :key="data.date + key">
-            {{ formatNumber(data[value]) }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <table class="table-minimized" v-else>
+    <thead>
+      <tr>
+        <th :key="incomeAndMetrics.date">
+          {{ incomeAndMetrics.symbol }} 
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Simplified data representation -->
+      
+      <!-- Add more rows as needed -->
+    </tbody>
+  </table>
     <!-- Buttons here -->
   </div>
-
 </template>
 
 
 <script>
-
+// focus on addig the functionallity of having multiple tables so if the user fetches one stock a table is generated and if the user fetches another stock another table is generated don't change any other locic you previos replyes are incorrect they broke the 
 import { EventBus } from '../event-bus.js';
 export default {
   name: 'table',
   data() {
     return {
       isMinimized: true,
-      ifMinimized: 'expand',
+      ifMinimized: 'Expand',
       incomeAndMetrics: [],
       keyMapping: {
         "Accepted Date": "acceptedDate",
@@ -45,61 +60,28 @@ export default {
         "Avg Receivables": "averageReceivables",
         "BookVal/Share": "bookValuePerShare",
         "Calendar Year": "calendarYear",
-        "Capex/Share": "capexPerShare",
-        "CapexToDepr": "capexToDepreciation",
-        "CapexToOCF": "capexToOperatingCashFlow",
-        "CapexToRev": "capexToRevenue",
         "Cash/Share": "cashPerShare",
         "CIK Code": "cik",
-        "Cost Expenses": "costAndExpenses",
         "Cost Revenue": "costOfRevenue",
         "Current Ratio": "currentRatio",
         "Date": "date",
-        "Days Inv Hand": "daysOfInventoryOnHand",
-        "Days Pay Out": "daysPayablesOutstanding",
-        "Days Sales Out": "daysSalesOutstanding",
         "Debt To Assets": "debtToAssets",
         "Debt To Equity": "debtToEquity",
-        "Depr Amort": "depreciationAndAmortization",
         "Dividend Yield": "dividendYield",
         "Earnings Yield": "earningsYield",
         "EBITDA": "ebitda",
         "EBITDA Ratio": "ebitdaratio",
-        "Enterprise Val": "enterpriseValue",
-        "EV Over EBITDA": "enterpriseValueOverEBITDA",
-        "EPS": "eps",
-        "EPS Diluted": "epsdiluted",
-        "EV To FCF": "evToFreeCashFlow",
-        "EV To OCF": "evToOperatingCashFlow",
-        "EV To Sales": "evToSales",
-        "Filling Date": "fillingDate",
-        "FCF/Share": "freeCashFlowPerShare",
-        "FCF Yield": "freeCashFlowYield",
-        "Gen Adm Expenses": "generalAndAdministrativeExpenses",
-        "Graham NetNet": "grahamNetNet",
         "Graham Number": "grahamNumber",
         "Gross Profit": "grossProfit",
         "GrossProf Ratio": "grossProfitRatio",
-        "Inc Before Tax": "incomeBeforeTax",
-        "IncBfTax Ratio": "incomeBeforeTaxRatio",
-        "IncomeTax Expense": "incomeTaxExpense",
         "Income Quality": "incomeQuality",
         "Int Expense": "interestExpense",
         "Int Income": "interestIncome",
-        "Inv Turnover": "inventoryTurnover",
-        "Invested Capital": "investedCapital",
         "Market Cap": "marketCap",
-        "NCA Value": "netCurrentAssetValue",
         "NetDebt To EBITDA": "netDebtToEBITDA",
         "Net Income": "netIncome",
         "NetInc/Share": "netIncomePerShare",
         "NetInc Ratio": "netIncomeRatio",
-        "OCF/Share": "operatingCashFlowPerShare",
-        "Operating Exp": "operatingExpenses",
-        "Operating Inc": "operatingIncome",
-        "OperatingInc Rat": "operatingIncomeRatio",
-        "Other Expenses": "otherExpenses",
-        "Payables Turn": "payablesTurnover",
         "Payout Ratio": "payoutRatio",
         "PB Ratio": "pbRatio",
         "PE Ratio": "peRatio",
@@ -108,37 +90,25 @@ export default {
         "POCF Ratio": "pocfratio",
         "PT Sales Ratio": "priceToSalesRatio",
         "PTB Ratio": "ptbRatio",
-        "Recv Turnover": "receivablesTurnover",
-        "Reported Curr": "reportedCurrency",
-        "R&D To Revenue": "researchAndDdevelopementToRevenue",
-        "RTN Tang Assets": "returnOnTangibleAssets",
+        "Currency": "reportedCurrency",
         "Revenue": "revenue",
         "Rev/Share": "revenuePerShare",
-        "R&D Expense": "researchAndDevelopmentExpenses",
         "ROE": "roe",
         "ROIC": "roic",
-        "SG&A To Rev": "salesGeneralAndAdministrativeToRevenue",
-        "Selling&Mkt Exp": "sellingAndMarketingExpenses",
-        "SG&A Expense": "sellingGeneralAndAdministrativeExpenses",
         "ShrEq/Share": "shareholdersEquityPerShare",
-        "SBC To Revenue": "stockBasedCompensationToRevenue",
         "Symbol": "symbol",
-        "Tangible Ast Val": "tangibleAssetValue",
-        "TangBkVal/Share": "tangibleBookValuePerShare",
-        "TotalOthIncExpN": "totalOtherIncomeExpensesNet",
-        "W AvgShs Out": "weightedAverageShsOut",
-        "W AvgShsOut Dil": "weightedAverageShsOutDil",
         "Working Capital": "workingCapital",
       },
+      stocks: [],
     };
   },
   methods: {
     toggleTable() {
       this.isMinimized = !this.isMinimized;
       if (this.isMinimized) {
-        this.ifMinimized = 'expand';
-      } else  {        
-        this.ifMinimized = 'hide';
+        this.ifMinimized = 'Expand';
+      } else {
+        this.ifMinimized = 'Hide';
       }
     },
     addToLocalStorage(stockData) {
@@ -186,7 +156,7 @@ export default {
   },
   computed: {
     formattedIncomeAndMetrics() {
-      return JSON.stringify(this.incomeAndMetrics, null, 2); 
+      return JSON.stringify(this.incomeAndMetrics, null, 2);
     }
   },
   watch: {
@@ -197,12 +167,10 @@ export default {
   created() {
     EventBus.on('incomeAndMetricsChanged', (data) => {
       this.incomeAndMetrics = data;
-      console.log(this.incomeAndMetrics, 'from table.vue'); 
+      console.log(this.incomeAndMetrics, 'from table.vue');
     });
   },
-  beforeUnmount() {
-    // Clean up the event listener, specify the function if necessary
-  }
+
 };
 </script>
 
@@ -211,7 +179,6 @@ export default {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Arial', sans-serif;
   background-color: var(--main-bg-color);
   color: var(--main-text-color);
 }
@@ -227,7 +194,10 @@ body {
   justify-content: center;
 
 }
-
+.btn-con{
+  background-color: #49494951;
+  border: 1px solid #000000;
+}
 .table-container {
   overflow-x: auto;
   margin: 20px 20px;
@@ -235,8 +205,7 @@ body {
 
 .table {
   border-collapse: collapse;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin: 32px;
+  /* margin: 32px; */
 }
 
 .table th,
@@ -249,8 +218,7 @@ body {
 }
 
 .table th {
-  background-color: #3a99ff;
-  color: #ffffff;
+  color: var(--main-text-color);
   font-weight: bold;
 }
 
@@ -284,7 +252,7 @@ tr:nth-child(even) {
   font-weight: bold;
 }
 
-button{
+button {
   margin: 20px;
   padding: 10px 20px;
   background-color: var(--button-bg-color);
@@ -293,5 +261,11 @@ button{
   cursor: pointer;
   border-radius: 5px;
   transition: background-color 0.3s, color 0.3s;
+}
+button:nth-child(1){
+  margin: 0;
+}
+button:nth-last-child(1){
+  margin: 0;
 }
 </style>

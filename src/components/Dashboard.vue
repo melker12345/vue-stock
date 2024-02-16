@@ -7,6 +7,9 @@
             <fetch />
         </div>
         <div>
+            <div>
+                <table @incomeAndMetricsChanged="handleIncomeAndMetricsChanged"></table>
+            </div>
             <table-component />
         </div>
     </div>
@@ -17,14 +20,20 @@ import fetch from './fetch.vue';
 import TableComponent from './table.vue';
 
 export default {
+
     components: {
         fetch,
         'table-component': TableComponent,
+        'incomeAndMetricsChanged': TableComponent,
     },
+    name: 'Dashboard',
     data() {
         return {
-           // this will hold the value from Fetch.vue
+            // this will hold the value from Fetch.vue
         };
+    },
+    setup() {
+
     },
 };
 </script>
@@ -51,6 +60,5 @@ body {
     flex-wrap: nowrap;
     flex-direction: column;
     padding: 20px;
-    margin: 3rem;
 }
 </style>

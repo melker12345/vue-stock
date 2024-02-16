@@ -1,26 +1,139 @@
-redo the add / remove from local Storage buttons
-  toggle button 
+table.vue
 
-add omx/nasdaq to nav
-    different api [ ]
-    
+Multiple tables [ ]
+  List of tables
+  Minimized table should be 2 rows and 6 colums
+  Top row should consist of these key metrics (symbol, marketCap, Date, peRatio, reportedCurrency) 
+  and the row under shall consist of the coresponding value 
+
+Minimized table looks shit [ ]
+    Maybe show preselected metric while table is minimized 
+    (symbol, marketCap, Date, peRatio, reportedCurrency)
+      allows for better overview if user want to display multiple tables
+
+Local storage management:
+
+  Buttons for adding and removing stocks from local storage [X]
+    Button that adds all rendered data to local storage 
+    Button that removes all rendered data to local storage 
 
 
+  Store the preselected metrics in local storage instead of all the rendered data for each stock [ ] 
+    It reduces the data in local storage by a lot.  
+    It will slow down the time to load the table since we would need to issue a fetch request for every stock instead of just getting the data from local storage. 
 
-button for minimized
+    What happens if user store many stocks to local storage?
+      Limit the local storage to 20 stocks
+  
+    when will load time be affected?
+      It will not be noticable if we optimize the data being stored in local storage
 
-minimized table looks shit
+    Should we fetch stored stocks on page load or when user expands table?
+      Fetch all stored stocks on page load will increase load time by alot but it will apear smother when expanding tables
+
+    Fetch all stored stocks when user expands will not increase the page load time but will indruduse on 
+    agerage 300ms of load time when expanding table 
+
+  Information bubble [ ]
+    Add small (i) icon to every cell containing metric 
+    When hovering the leftmost column show the respected explanation for that metric
+
+TODO: 
+Multiple tables [ ]
+Minimized table looks shit [ ]
+Store the preselected metrics in local storage instead of all the rendered data for each stock [ ]   
+Information bubble [ ]
 
 
-multiple tables 
-  list of table 
-
-filter 
-  allow to remove metric
-  fetch all with acceptible value
-
-information bubble
-  on hover show the respected explanation
-
-style
-
+      keyMapping: {
+        "Accepted Date": "acceptedDate",
+        "Avg Inventory": "averageInventory",
+        "Avg Payables": "averagePayables",
+        "Avg Receivables": "averageReceivables",
+        "BookVal/Share": "bookValuePerShare",
+        "Calendar Year": "calendarYear",
+        "Capex/Share": "capexPerShare",
+        "CapexToDepr": "capexToDepreciation",
+        "CapexToOCF": "capexToOperatingCashFlow",
+        "CapexToRev": "capexToRevenue",
+        "Cash/Share": "cashPerShare",
+        "CIK Code": "cik",
+        "Cost Expenses": "costAndExpenses",
+        "Cost Revenue": "costOfRevenue",
+        "Current Ratio": "currentRatio",
+        "Date": "date",
+        "Days Inv Hand": "daysOfInventoryOnHand",
+        "Days Pay Out": "daysPayablesOutstanding",
+        "Days Sales Out": "daysSalesOutstanding",
+        "Debt To Assets": "debtToAssets",
+        "Debt To Equity": "debtToEquity",
+        "Depr Amort": "depreciationAndAmortization",
+        "Dividend Yield": "dividendYield",
+        "Earnings Yield": "earningsYield",
+        "EBITDA": "ebitda",
+        "EBITDA Ratio": "ebitdaratio",
+        "Enterprise Val": "enterpriseValue",
+        "EV Over EBITDA": "enterpriseValueOverEBITDA",
+        "EPS": "eps",
+        "EPS Diluted": "epsdiluted",
+        "EV To FCF": "evToFreeCashFlow",
+        "EV To OCF": "evToOperatingCashFlow",
+        "EV To Sales": "evToSales",
+        "Filling Date": "fillingDate",
+        "FCF/Share": "freeCashFlowPerShare",
+        "FCF Yield": "freeCashFlowYield",
+        "Gen Adm Expenses": "generalAndAdministrativeExpenses",
+        "Graham NetNet": "grahamNetNet",
+        "Graham Number": "grahamNumber",
+        "Gross Profit": "grossProfit",
+        "GrossProf Ratio": "grossProfitRatio",
+        "Inc Before Tax": "incomeBeforeTax",
+        "IncBfTax Ratio": "incomeBeforeTaxRatio",
+        "IncomeTax Expense": "incomeTaxExpense",
+        "Income Quality": "incomeQuality",
+        "Int Expense": "interestExpense",
+        "Int Income": "interestIncome",
+        "Inv Turnover": "inventoryTurnover",
+        "Invested Capital": "investedCapital",
+        "Market Cap": "marketCap",
+        "NCA Value": "netCurrentAssetValue",
+        "NetDebt To EBITDA": "netDebtToEBITDA",
+        "Net Income": "netIncome",
+        "NetInc/Share": "netIncomePerShare",
+        "NetInc Ratio": "netIncomeRatio",
+        "OCF/Share": "operatingCashFlowPerShare",
+        "Operating Exp": "operatingExpenses",
+        "Operating Inc": "operatingIncome",
+        "OperatingInc Rat": "operatingIncomeRatio",
+        "Other Expenses": "otherExpenses",
+        "Payables Turn": "payablesTurnover",
+        "Payout Ratio": "payoutRatio",
+        "PB Ratio": "pbRatio",
+        "PE Ratio": "peRatio",
+        "Period": "period",
+        "PFCF Ratio": "pfcfRatio",
+        "POCF Ratio": "pocfratio",
+        "PT Sales Ratio": "priceToSalesRatio",
+        "PTB Ratio": "ptbRatio",
+        "Recv Turnover": "receivablesTurnover",
+        "Currency": "reportedCurrency",
+        "R&D To Revenue": "researchAndDdevelopementToRevenue",
+        "RTN Tang Assets": "returnOnTangibleAssets",
+        "Revenue": "revenue",
+        "Rev/Share": "revenuePerShare",
+        "R&D Expense": "researchAndDevelopmentExpenses",
+        "ROE": "roe",
+        "ROIC": "roic",
+        "SG&A To Rev": "salesGeneralAndAdministrativeToRevenue",
+        "Selling&Mkt Exp": "sellingAndMarketingExpenses",
+        "SG&A Expense": "sellingGeneralAndAdministrativeExpenses",
+        "ShrEq/Share": "shareholdersEquityPerShare",
+        "SBC To Revenue": "stockBasedCompensationToRevenue",
+        "Symbol": "symbol",
+        "Tangible Ast Val": "tangibleAssetValue",
+        "TangBkVal/Share": "tangibleBookValuePerShare",
+        "TotalOthIncExpN": "totalOtherIncomeExpensesNet",
+        "W AvgShs Out": "weightedAverageShsOut",
+        "W AvgShsOut Dil": "weightedAverageShsOutDil",
+        "Working Capital": "workingCapital",
+      },

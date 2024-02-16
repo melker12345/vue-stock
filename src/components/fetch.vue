@@ -33,9 +33,6 @@ export default {
         // Define methods for your component
         async fetchAndDisplayData() {
             try {
-                // planing to add 
-                // https://financialmodelingprep.com/api/v3/quote/AAPL,FB,GOOG?apikey= 
-                // 'https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/AAPL?apikey=1z3Eat6B3MbUU0ayvXDBXEt4D82W1Zmo'
 
                 // Fetch income data from API
                 const incomeData = await this.fetchApiData(
