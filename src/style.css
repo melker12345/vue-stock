@@ -24,11 +24,11 @@ body {
 
 /* Dark theme overrides */
 [data-theme="dark"] {
-  --main-bg-color: #222222;
+  --main-bg-color: #1e2021;
   --main-text-color: #dfdcd8;
   --button-bg-color: #666;
   --button-text-color: #fff;
-  --navbar-bg-color: #333333;
+  --navbar-bg-color: #181a1b;
   --navbar-text-color: #ffffff;
   --button-hover-bg-color: #555555;
   --button-hover-text-color: #ffffff;

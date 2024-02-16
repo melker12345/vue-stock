@@ -1,3 +1,4 @@
+
 <template>
   <div class="table-container">
     <div class="btn-con">
@@ -5,40 +6,55 @@
       <button @click="addToLocalStorage()">ADD TO LOCAL</button>
       <button @click="removeFromLocalStorage()">REMOVE LOCAL</button>
     </div>
-    <table class="table" v-if="!isMinimized">
-    <thead>
-      <tr>
-        <th>Nyckel tal</th>
-        <th v-for="data in incomeAndMetrics" :key="data.date">
-          {{ data.symbol }} 
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="(value, key) in keyMapping" :key="key">
-        <td>{{ key.toUpperCase() }}</td>
-        <td v-for="data in incomeAndMetrics" :key="data.date + key">
-          {{ formatNumber(data[value]) }}
-        </td>
-      </tr>
-    </tbody>
-  </table>
+    <div class="table-responsive">
+      <table class="table" v-if="!isMinimized && incomeAndMetrics !== undefined">
+        <caption>Last 5 reports for {{ incomeAndMetrics[0].symbol }}</caption>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th v-for="data in incomeAndMetrics" :key="data.date">
+              {{ data.date }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(value, key) in keyMapping" :key="key">
+            <td>{{ key.toUpperCase() }}</td>
+            <td v-for="data in incomeAndMetrics" :key="data.date + key">
+              {{ formatNumber(data[value]) }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
-  <table class="table-minimized" v-else>
-    <thead>
-      <tr>
-        <th :key="incomeAndMetrics.date">
-          {{ incomeAndMetrics.symbol }} 
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- Simplified data representation -->
-      
-      <!-- Add more rows as needed -->
-    </tbody>
-  </table>
-    <!-- Buttons here -->
+      <table class="table-minimized" v-if="incomeAndMetrics && incomeAndMetrics.length > 0">
+        <caption>Last 5 reports for {{ incomeAndMetrics[0].symbol }}</caption>
+        <thead>
+          <tr >
+            <!-- Headers from keyMapping -->
+            <th> symbol </th>
+            <th> peRatio </th>
+            <th> debtToEquity </th>
+            <th> dividendYield </th>
+            <th> revenue </th>
+            <th> payoutRatio </th>
+
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr >
+          <td>{{ incomeAndMetrics[0].symbol }}</td>
+          <td>{{ formatNumber(incomeAndMetrics[0].peRatio) }}</td>
+          <td>{{ formatNumber(incomeAndMetrics[0].debtToEquity) }}</td>
+          <td>{{ formatNumber(incomeAndMetrics[0].dividendYield) }}</td>
+          <td>{{ formatNumber(incomeAndMetrics[0].revenue) }}</td>
+          <td>{{ formatNumber(incomeAndMetrics[0].payoutRatio) }}</td>
+        </tr>
+        </tbody>
+    </table>
+      <!-- Buttons here -->
+    </div>
   </div>
 </template>
 
@@ -54,7 +70,6 @@ export default {
       ifMinimized: 'Expand',
       incomeAndMetrics: [],
       keyMapping: {
-        "Accepted Date": "acceptedDate",
         "Avg Inventory": "averageInventory",
         "Avg Payables": "averagePayables",
         "Avg Receivables": "averageReceivables",
@@ -169,12 +184,18 @@ export default {
       this.incomeAndMetrics = data;
       console.log(this.incomeAndMetrics, 'from table.vue');
     });
+    
   },
 
 };
 </script>
 
 <style scoped>
+.table-responsive {
+  overflow-x: auto;
+  /* Allows table to scroll horizontally when necessary */
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -183,78 +204,59 @@ export default {
   color: var(--main-text-color);
 }
 
-body {
-  background-color: #f5f5f5;
-  color: #f5f5f5;
-  font-size: 16px;
-  line-height: 1.6;
-  display: flex;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 
-}
-.btn-con{
-  background-color: #49494951;
-  border: 1px solid #000000;
-}
+
 .table-container {
   overflow-x: auto;
-  margin: 20px 20px;
 }
 
 .table {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  margin: auto;
   border-collapse: collapse;
-  /* margin: 32px; */
 }
 
-.table th,
-.table td {
-  max-width: 225px;
-  padding: 15px;
+caption {
   text-align: center;
-  border-bottom: 1px solid #ddd;
+  font-weight: bold;
+  padding: 10px 0;
+  background-color: var(--main-bg-color);
+  font-size: 1.3em;
+  margin: 1rem;
+
+}
+
+thead {
+  width: 100%;
+}
+
+th {
+  max-width: 225px;
+  width: 100%;
+  padding: 8px;
+  text-align: center;
   border: 1px solid black;
 }
 
-.table th {
-  color: var(--main-text-color);
-  font-weight: bold;
-}
-
-tr:nth-child(even) {
-  background-color: #ff0000;
-}
-
-.table tr:hover {
-  background-color: #ddd;
-}
-
-.table td {
-  font-weight: normal;
-}
-
-.table-header {
-  background-color: #007bff;
-  color: #ffffff;
-}
-
-.table-header th {
-  font-size: 18px;
-}
-
-.highlight {
-  color: #0056b3;
-  font-weight: bold;
+td {
+  max-width: 225px;
+  padding: 8px;
+  text-align: center;
+  border: 1px solid black;
 }
 
 .table td:first-child {
   font-weight: bold;
 }
 
+
 button {
-  margin: 20px;
-  padding: 10px 20px;
+  margin: 0px 20px;
+  padding: 10px 15px;
   background-color: var(--button-bg-color);
   color: var(--button-text-color);
   border: none;
@@ -262,10 +264,32 @@ button {
   border-radius: 5px;
   transition: background-color 0.3s, color 0.3s;
 }
-button:nth-child(1){
+
+button:nth-child(1) {
   margin: 0;
 }
-button:nth-last-child(1){
+
+button:nth-last-child(1) {
   margin: 0;
 }
-</style>
+
+@media (max-width: 600px) {
+
+  th,
+  td {
+    display: block;
+    text-align: right;
+  }
+
+  td::before {
+    /* Display the content of the "data-label" attribute as a pseudo-element before each cell */
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+  }
+
+  /* Adjustments for smaller screens */
+  .table-responsive {
+    overflow-y: hidden;
+  }
+}</style>

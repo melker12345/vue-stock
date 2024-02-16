@@ -1,5 +1,4 @@
 <template>
-    <!-- HTML Markup goes here. Use Vue directives like v-for, v-if, v-model etc. -->
     <div class="fetch-con">
         <input class="input-field" type="text" v-model="ticker" placeholder="Enter Stock Ticker" />
         <button class="fetch-btn" @click="fetchAndDisplayData()">
@@ -14,10 +13,6 @@ import { EventBus } from '../event-bus.js';
 
 export default {
     name: 'fetch', // Component name
-    components: {
-        // Import and use other components if needed
-
-    },
     data() {
         return {
 
