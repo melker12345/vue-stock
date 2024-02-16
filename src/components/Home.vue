@@ -14,7 +14,6 @@
     <ul class="nav-button">
       <li><router-link to="/">Home</router-link></li>
       <li><router-link to="/about">About</router-link></li>
-      <!-- Add more navigation links here -->
     </ul>
   </header>
 
@@ -38,7 +37,7 @@ export default {
   data() {
     return {
       indexChanges: [], // Use an array to store objects with index data
-      indexList: ['^OMXS30', '^W2DOW', '^W5000', '^SET.BK', '^HSCE'] // max 5 index
+      indexList: ['^OMXS30', '^W2DOW', '^NDX', '^SPX', '^DJSH'] //  indexes Stockholm, Dow Jones, Nasdaq, S&P 500, Dow Jones Shanghai
     };
   },
 

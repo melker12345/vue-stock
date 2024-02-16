@@ -6,7 +6,7 @@ Multiple tables [ ]
   Top row should consist of these key metrics (symbol, marketCap, Date, peRatio, reportedCurrency) 
   and the row under shall consist of the coresponding value 
 
-Minimized table looks shit [ ]
+Minimized table looks shit [X]
     Maybe show preselected metric while table is minimized 
     (symbol, marketCap, Date, peRatio, reportedCurrency)
       allows for better overview if user want to display multiple tables
@@ -39,9 +39,9 @@ Local storage management:
     When hovering the leftmost column show the respected explanation for that metric
 
 TODO: 
+Minimized table looks shit [X]
 Multiple tables [ ]
-Minimized table looks shit [ ]
-Store the preselected metrics in local storage instead of all the rendered data for each stock [ ]   
+Store the preselected metrics (minimized table) in local storage instead of all the rendered data for each stock [ ]   
 Information bubble [ ]
 
 
