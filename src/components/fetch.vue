@@ -138,8 +138,6 @@ export default {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin: 1rem;
-
 }
 
 .input-field {

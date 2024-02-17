@@ -8,10 +8,9 @@
     </div>
     <div class="table-responsive">
       <table class="table" v-if="!isMinimized && incomeAndMetrics !== undefined">
-        <caption>Last 5 reports for {{ incomeAndMetrics[0].symbol }}</caption>
         <thead>
           <tr>
-            <th>Date</th>
+            <th>Last 5 reports for {{ incomeAndMetrics[0].symbol }}</th>
             <th v-for="data in incomeAndMetrics" :key="data.date">
               {{ data.date }}
             </th>
@@ -28,11 +27,10 @@
       </table>
 
       <table class="table-minimized" v-if="incomeAndMetrics && incomeAndMetrics.length > 0">
-        <caption>Last 5 reports for {{ incomeAndMetrics[0].symbol }}</caption>
         <thead>
           <tr >
             <!-- Headers from keyMapping -->
-            <th> symbol </th>
+            <th> Last 5 reports for {{ incomeAndMetrics[0].symbol }} </th>
             <th> peRatio </th>
             <th> debtToEquity </th>
             <th> dividendYield </th>
@@ -202,10 +200,8 @@ export default {
   box-sizing: border-box;
   background-color: var(--main-bg-color);
   color: var(--main-text-color);
+  border-collapse: collapse;
 }
-
-
-
 .table-container {
   overflow-x: auto;
 }
@@ -217,19 +213,8 @@ export default {
   flex-direction: column;
   width: 100%;
   margin: auto;
-  border-collapse: collapse;
-}
-
-caption {
-  text-align: center;
-  font-weight: bold;
-  padding: 10px 0;
-  background-color: var(--main-bg-color);
-  font-size: 1.3em;
-  margin: 1rem;
 
 }
-
 thead {
   width: 100%;
 }
@@ -255,7 +240,7 @@ td {
 
 
 button {
-  margin: 0px 20px;
+  margin: 20px;
   padding: 10px 15px;
   background-color: var(--button-bg-color);
   color: var(--button-text-color);
@@ -263,6 +248,7 @@ button {
   cursor: pointer;
   border-radius: 5px;
   transition: background-color 0.3s, color 0.3s;
+  
 }
 
 button:nth-child(1) {

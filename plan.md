@@ -1,37 +1,57 @@
-# About the Vue Stock Application
+# Stock site
 
-## Introduction
+### TODO: 
+- Table
+  - Minimized table [x]
+  - Multiple tables [ ]
+  - local storage manegement [ ]
+  - Information bubble [ ]
 
-This Vue application is designed to provide real-time stock market data to users. Utilizing Vue.js frameworks and modern web development practices, it offers a dynamic and interactive experience.
+<br>
 
-## Core Components
+- Filter
+  - Page or overlay for filter
+  - Select metrics to be displayed
+  - Set ranges for all metrics (below, above, between)
+  - Sector or country
 
-### Dashboard Component (`Dashboard.vue`)
+<br>
 
-The Dashboard acts as the main view of our application, where users can get an overview of the stock market at a glance. It integrates various functionalities and components, providing a cohesive user experience.
+- Chart
+  - Fetch and display chart of stock 
+  - implement (https://github.com/melker12345/StockSite)
 
-### Data Fetching Component (`fetch.vue`)
+---
+### Table.vue
 
-This component is responsible for retrieving stock market data from external APIs. It uses asynchronous web requests to ensure that the application remains responsive while fetching the latest stock information.
+<br>
 
-### Data Presentation Component (`table.vue`)
+##### Minimized Table
+  - Minimized table should have 2 rows and 6 columns
+  - Top row should consist of preselected key metrics  
+  - This allows for a better overview if the user wants to display multiple tables
 
-The `table.vue` component is tasked with presenting the fetched stock data in a structured and user-friendly table format. It allows users to easily understand and analyze the market trends.
+##### Multiple tables
+  - List of tables
+  - Eeach table should have a minimize/expand and add/remove button
+  - Once the user fetches a new ticker a table is generated for that ticker 
 
-## Application Workflow
+---
 
-1. **Initialization**: Upon loading the application, the `Dashboard.vue` component is displayed, serving as the entry point for users.
+##### Local storage:
+- Buttons for adding and removing stocks from local storage 
+  - Button that adds all data to local storage 
+  - Button that removes all data from local storage.
+  <br>
+- Stored stock data should render on page load
+  - Add buttin should push the full  ```` incomeAndMetrics[]```` for that stock to a new list
+  - ````savedStocks[]```` list should consist of a list for every stock saved e.g. ```` let savedStock = [[{}]...[{}], [{}]] ```` 
 
-2. **Data Fetching**: The `fetch.vue` component is invoked to retrieve the latest stock market data from the chosen API, ensuring that users have access to up-to-date information.
+---
 
-3. **Data Display**: Once the data is fetched, it is passed to the `table.vue` component, which organizes and displays it in a tabular format for easy viewing and analysis.
+##### Information bubble 
+  - Add a small (i) icon to every cell containing a metric 
+  - When clicking that cell show the respective explanation for that metric
+---
 
-## Features and Functionality
-
-- **Real-Time Data**: The application provides real-time updates on stock prices and market trends.
-- **Interactive Data Presentation**: Users can interact with the data presented, filtering and sorting according to their preferences.
-- **Responsive Design**: Crafted with a responsive design, the application offers an optimal viewing experience across various devices and screen sizes.
-
-## Conclusion
-
-The Vue Stock Application exemplifies the power of Vue.js and modern web technologies in creating dynamic, data-driven applications. By seamlessly fetching and presenting real-time stock market data, it serves as a valuable tool for investors and enthusiasts looking to stay updated with market trends.
+### Filter.vue
