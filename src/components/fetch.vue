@@ -6,134 +6,149 @@
         </button>
     </div>
 </template>
-  
+
 <script>
 import axios from 'axios';
-import { EventBus } from '../event-bus.js';
+import { reactive, toRefs } from 'vue';
 
 export default {
-    name: 'fetch', // Component name
-    data() {
-        return {
+    name: 'FetchData',
+    setup(_, { emit }) {
+        const state = reactive({
+            ticker: "",
+            IncomeAndMetrics: [],
+            stocks: [],
+            error: null,
+            // Remember to move the API key to a more secure place, like environment variables or server-side handling
+            apikey: "1z3Eat6B3MbUU0ayvXDBXEt4D82W1Zmo",
+        });
 
-            ticker: "", // Input field value for stock ticker
-            IncomeAndMetrics: [], // Array to store fetched data
-            apikey: "1z3Eat6B3MbUU0ayvXDBXEt4D82W1Zmo", // API key for financial data
-            // Define mapping of long keys to shorter names the keys are the iriginal keys from the API and the values are the new keys
+        // Key mapping structure
+        const keyMapping = {
+            "Avg Inventory": "averageInventory",
+            "Avg Payables": "averagePayables",
+            "Avg Receivables": "averageReceivables",
+            "BookVal/Share": "bookValuePerShare",
+            "Calendar Year": "calendarYear",
+            "Cash/Share": "cashPerShare",
+            "CIK Code": "cik",
+            "Cost Revenue": "costOfRevenue",
+            "Current Ratio": "currentRatio",
+            "Date": "date",
+            "Debt To Assets": "debtToAssets",
+            "Debt To Equity": "debtToEquity",
+            "Dividend Yield": "dividendYield",
+            "Earnings Yield": "earningsYield",
+            "EBITDA": "ebitda",
+            "EBITDA Ratio": "ebitdaratio",
+            "Graham Number": "grahamNumber",
+            "Gross Profit": "grossProfit",
+            "GrossProf Ratio": "grossProfitRatio",
+            "Income Quality": "incomeQuality",
+            "Int Expense": "interestExpense",
+            "Int Income": "interestIncome",
+            "Market Cap": "marketCap",
+            "NetDebt To EBITDA": "netDebtToEBITDA",
+            "Net Income": "netIncome",
+            "NetInc/Share": "netIncomePerShare",
+            "NetInc Ratio": "netIncomeRatio",
+            "Payout Ratio": "payoutRatio",
+            "PB Ratio": "pbRatio",
+            "PE-Ratio": "peRatio",
+            "Period": "period",
+            "PFCF Ratio": "pfcfRatio",
+            "POCF Ratio": "pocfratio",
+            "PT Sales Ratio": "priceToSalesRatio",
+            "PTB Ratio": "ptbRatio",
+            "Currency": "reportedCurrency",
+            "Revenue": "revenue",
+            "Rev/Share": "revenuePerShare",
+            "ROE": "roe",
+            "ROIC": "roic",
+            "ShrEq/Share": "shareholdersEquityPerShare",
+            "Symbol": "symbol",
+            "Working Capital": "workingCapital",
         };
-    },
 
-    methods: {
-       
-        // Define methods for your component
-        async fetchAndDisplayData() {
+        // Fetch data from the API
+        const fetchApiData = async (endpoint) => {
             try {
-
-                // Fetch income data from API
-                const incomeData = await this.fetchApiData(
-                    `v3/income-statement/${this.ticker}?period=annually`
-                );
-                // Fetch metrics data from API
-                const metricsData = await this.fetchApiData(
-                    `v3/key-metrics/${this.ticker}?period=annually`
-                );
-
-                // Fetch discounted cash flow data from API currently not working
-                const discountedCashFlow = await this.fetchApiData(
-                    `v4/advanced_discounted_cash_flow?symbol=${this.ticker}`
-                );
-
-                // Combine fetched data into a single array
-                const combined = this.combineData(
-                    incomeData,
-                    metricsData,
-                    discountedCashFlow
-                );
-
-                this.IncomeAndMetrics = combined.splice(0, 5);
-
-                // Emit event to notify other components about the updated data
-                EventBus.emit('incomeAndMetricsChanged', this.IncomeAndMetrics);
-
-                
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        },
-        async fetchApiData(endpoint) {
-            const url = `https://financialmodelingprep.com/api/${endpoint}&apikey=${this.apikey}`;
-            try {
-                // Make API request using axios
+                const url = `https://financialmodelingprep.com/api/${endpoint}&apikey=${state.apikey}`;
                 const response = await axios.get(url);
-                // console.log(response.data, 'response from fetch.vue');
                 return response.data;
             } catch (error) {
                 console.error("Error fetching data:", error);
-                throw new Error(error);
+                state.error = error;
+                return []; // Return an empty array to avoid further errors in processing
             }
+        };
 
-        },
-        // Example mapping of long keys to shorter names
-
-
-        // Function to rename keys based on the mapping
-
-        combineData(incomeData, metricsData, discountedCashFlow) {
-            if (!Array.isArray(incomeData) || !Array.isArray(metricsData) || !Array.isArray(discountedCashFlow)) {
-                console.error("Data is not in array format:", { incomeData, metricsData, discountedCashFlow });
-                return [];
-            }
-
-            const combinedData = [];
+        // Combine data from different sources
+        const combineData = (incomeData, metricsData, discountedCashFlow) => {
             const maxLength = Math.max(incomeData.length, metricsData.length, discountedCashFlow.length);
-            for (let i = 0; i < maxLength; i++) {
-                let combinedObject = {};
-                const income = incomeData[i] || {};
-                const metrics = metricsData[i] || {};
-                const discounted = discountedCashFlow[i] || {};
-
-                // Combine the data from different sources
-                combinedObject = { ...income, ...metrics, ...discounted };
-
-                // Ensure there's a date in the combined object
-                if (income.date) {
-                    combinedObject.date = income.date;
-                } else if (metrics.date) {
-                    combinedObject.date = metrics.date;
-                } else if (discounted.date) {
-                    combinedObject.date = discounted.date;
-                }
-
-                // Rename keys of the combinedObject using the component's method and keyMapping
-
-
-                // Helper function defined within combineData to ensure access to 'combinedObject'
-                const removeLastTwoKeyValues = (obj) => {
-                    const keys = Object.keys(obj);
-                    keys.forEach((key) => {
-                        if (typeof obj[key] === 'string' && obj[key].includes('http')) {
-                            delete obj[key];
-                        }
-                    });
+            return Array.from({ length: maxLength }, (_, i) => {
+                const combinedObject = {
+                    ...incomeData[i],
+                    ...metricsData[i],
+                    ...discountedCashFlow[i],
                 };
-
-                // Remove the last two key-value pairs from the combined object
                 removeLastTwoKeyValues(combinedObject);
+                return combinedObject;
+            });
+        };
 
-                // Push the processed object to the combinedData array
-                combinedData.push(combinedObject);
+        // Rename keys based on the keyMapping
+        const renameKeys = (combinedObject) => {
+            const renamedObject = {};
+            for (const [newKey, oldKey] of Object.entries(keyMapping)) {
+                if (combinedObject.hasOwnProperty(oldKey)) {
+                    renamedObject[newKey] = combinedObject[oldKey];
+                }
             }
-            return combinedData;
-        },
-    },
-    created() {
-      
+            return renamedObject;
+        };
+
+        // Remove keys that are not needed
+        const removeLastTwoKeyValues = (obj) => {
+            const keys = Object.keys(obj);
+            keys.forEach((key) => {
+                if (typeof obj[key] === 'string' && obj[key].includes('http')) {
+                    delete obj[key];
+                }
+            });
+        };
+
+        // Main function to fetch and display data
+        const fetchAndDisplayData = async () => {
+            try {
+                const incomeData = await fetchApiData(`v3/income-statement/${state.ticker}?period=annually`);
+                const metricsData = await fetchApiData(`v3/key-metrics/${state.ticker}?period=annually`);
+                const discountedCashFlow = await fetchApiData(`v4/advanced_discounted_cash_flow?symbol=${state.ticker}`);
+
+                let combined = combineData(incomeData, metricsData, discountedCashFlow);
+                combined = combined.map(obj => renameKeys(obj)); // Apply key renaming
+                state.IncomeAndMetrics = [combined.slice(0, 5)]; // Keep only the latest 5 reports
+
+                // Update the stocks state with the processed data
+                state.stocks.push(...state.IncomeAndMetrics);
+                emit('data-fetched', state.stocks);
+            } catch (error) {
+                state.error = error;
+            }
+        };
+
+        // Expose reactive state and functions to the template
+        return {
+            ...toRefs(state),
+            fetchAndDisplayData,
+        };
     },
 };
-</script>;
+</script>
   
 <style scoped>
 .fetch-con {
+    margin-top: 3rem;
     display: flex;
     flex-direction: row;
     justify-content: center;

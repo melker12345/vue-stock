@@ -12,7 +12,7 @@
 
   <div class="content">
     <div class="markdown">
-      <h1>About the Vue Stock Application</h1>
+      <h1>Stock Application in Vue</h1>
 
       <h2>Introduction</h2>
       <p>This Vue application is designed to provide real-time stock market data to users. By utilizing the Vue.js
@@ -156,10 +156,10 @@ export default {
 
 .markdown {
   padding: 20px;
-  margin: 20px;
+  margin: 5rem;
   text-align: left;
   border-radius: 10px;
-  width: 50%;
+  width: 40%;
   background-color: var(--navbar-bg-color);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }

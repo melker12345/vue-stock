@@ -1,39 +1,35 @@
-<template>
-    <div class="dashBoard-header">
-    </div>
 
+<template>
     <div class="dashBoard">
         <div class="fetch">
-            <fetch />
+            <fetch @data-fetched="handleDataFetched" />
         </div>
         <div>
-            <div>
-                <table @incomeAndMetricsChanged="handleIncomeAndMetricsChanged"></table>
-            </div>
-            <table-component />
+            <table-component :income-and-metrics="incomeAndMetrics" />
         </div>
     </div>
 </template>
   
 <script>
-import fetch from './fetch.vue';
+import Fetch from './fetch.vue';
 import TableComponent from './table.vue';
 
 export default {
-
     components: {
-        fetch,
-        'table-component': TableComponent,
-        'incomeAndMetricsChanged': TableComponent,
+        Fetch,
+        TableComponent,
     },
     name: 'Dashboard',
     data() {
         return {
-            // this will hold the value from Fetch.vue
+            incomeAndMetrics: [],
         };
     },
-    setup() {
-
+    methods: {
+        handleDataFetched(data) {
+            this.incomeAndMetrics = data;
+            console.log(this.incomeAndMetrics, 'Data fetched: dashboard.vue'); // in Dashboard.vue this currently logs the right data from fetch.vue thto the console but still no table is displayed
+        },
     },
 };
 </script>
