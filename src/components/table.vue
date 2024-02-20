@@ -9,27 +9,27 @@
           <button @click="addToLocalStorage(stockList[0])">ADD TO LOCAL</button>
           <button @click="removeFromLocalStorage(index)">REMOVE LOCAL</button>
         </div>
-
+        
         <!-- Minimized version of the table -->
         <table v-if="isMinimized[stockList[0].Symbol]" class="stock-table-minimized">
           <thead>
             <tr>
-              <th>{{ stockList[0].Symbol }}</th>
-              <th>peRatio</th>
-              <th>debtToEquity</th>
-              <th>dividendYield</th>
-              <th>revenue</th>
-              <th>payoutRatio</th>
+              <th>Last 5 reports for {{ stockList[0].Symbol }}</th>
+              <th>PE Ratio</th>
+              <th>Debt To Equity</th>
+              <th>Dividend Yield</th>
+              <th>Revenue</th>
+              <th>Payout Ratio</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>  </td>
-              <td>{{ formatNumber(stockList[0].peRatio) }}</td>
-              <td>{{ formatNumber(stockList[0].debtToEquity) }}</td>
-              <td>{{ formatNumber(stockList[0].dividendYield) }}</td>
-              <td>{{ formatNumber(stockList[0].revenue) }}</td>
-              <td>{{ formatNumber(stockList[0].payoutRatio) }}</td>
+              <td>{{ formatNumber(stockList[0].PeRatio) }}</td>
+              <td>{{ formatNumber(stockList[0].DebtToEquity) }}</td>
+              <td>{{ formatNumber(stockList[0].DividendYield) }}</td>
+              <td>{{ formatNumber(stockList[0].Revenue) }}</td>
+              <td>{{ formatNumber(stockList[0].PayoutRatio) }}</td>
             </tr>
           </tbody>
         </table>
@@ -150,13 +150,15 @@ export default {
 .stock-table-container {
   overflow-x: auto;
 }
-
+.stock-table-minimized {
+  width: 775px;
+}
 .stock-table {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  width: 100%;
+  width: 775px;
   margin: auto;
 
 }

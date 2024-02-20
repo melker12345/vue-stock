@@ -37,7 +37,7 @@ export default {
   data() {
     return {
       indexChanges: [], // Use an array to store objects with index data
-      indexList: ['^OMXS30', '^W2DOW', '^NDX', '^SPX', '^DJSH'] //  indexes Stockholm, Dow Jones, Nasdaq, S&P 500, Dow Jones Shanghai
+      indexList: ['^OMXS30', '^NDX', '^SPX', '^DJSH'] //  indexes Stockholm, Dow Jones, Nasdaq, S&P 500, Dow Jones Shanghai
     };
   },
 
@@ -58,10 +58,7 @@ export default {
           }
 
           // Push an object with both symbol and formatted change percentage
-          formattedIndexChanges.push({
-            symbol: data.symbol.slice(1), // Remove the '^' from the symbol
-            change: changesPercentage + '%'
-          });
+          formattedIndexChanges.push({ symbol: data.symbol.slice(1), change: changesPercentage + '%'});
         }
 
         // Update the Vue data property
