@@ -28,7 +28,7 @@ export default {
     methods: {
         handleDataFetched(data) {
             this.incomeAndMetrics = data;
-            console.log(this.incomeAndMetrics, 'Data fetched: dashboard.vue'); // in Dashboard.vue this currently logs the right data from fetch.vue thto the console but still no table is displayed
+            console.log(this.incomeAndMetrics, 'incomeAndMetrics: dashboard.vue'); // in Dashboard.vue this currently logs the right data from fetch.vue thto the console but still no table is displayed
         },
     },
 };
