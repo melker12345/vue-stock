@@ -14,7 +14,6 @@
           <button @click="addToLocalStorage(stockList)">Add to Local</button>
           <button @click="removeFromLocalStorage(stockList[0].Symbol)">Remove Local</button>
           <button @click="viewChart(stockList[0].Symbol)">View Chart</button>
-          <!-- Add more links or content as needed -->
         </div>
         <div class="btn-con" v-if="!isMobile">
           <button @click="toggleTable(stockList[0].Symbol)">
@@ -167,7 +166,7 @@ export default {
       removeFromLocalStorage,
       formatNumber,
       menuOpen,
-      toggleMenu, 
+      toggleMenu,
       isMobile,
     };
   },
@@ -185,6 +184,7 @@ export default {
   padding: 0;
   box-sizing: border-box;
 }
+
 .responsive-table {
   overflow-x: auto;
 }
@@ -212,38 +212,38 @@ td {
 .stock-table td:first-child {
   font-weight: bold;
 }
+
 .hamburger-btn {
-  display: none; /* Hidden by default */
+  display: none;
   background-color: var(--navbar-bg-color);
-  color: var(--main-text-color); /* White color for the icon */
-  padding: 10px 15px; /* Padding */
-  border: none; /* No border */
-  cursor: pointer; /* Cursor pointer */
+  color: var(--main-text-color);
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
 }
 
 .hamburger-menu {
   font-weight: bold;
   font-size: large;
-  display: block; /* Show the menu */
-  position: absolute; /* Positioning */
+  display: block;
+  position: absolute;
   background-color: var(--navbar-bg-color);
-  min-width: 160px; /* Minimum width */
-  box-shadow: 0px 8px 32px 0px rgba(0, 0, 0, 0.978); 
-  z-index: 1; /* Ensure it's above other content */
-  
+  min-width: 160px;
+  box-shadow: 0px 8px 32px 0px rgba(0, 0, 0, 0.978);
+  z-index: 1;
+
 }
 
 .hamburger-menu a {
-  color: black; /* Text color */
-  padding: 12px 16px; /* Padding */
-  text-decoration: none; /* No underline */
-  display: block; /* Block level elements */
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
 }
 
 .hamburger-menu a:hover {
-  background-color: #ddd; /* Light grey background on hover */
+  background-color: #ddd;
 }
-
 
 button {
   padding: 10px 15px;
@@ -263,12 +263,14 @@ button:hover {
 
 @media (max-width: 768px) {
   .hamburger-btn {
-    display: block; 
+    display: block;
   }
+
   th,
   td {
     padding: 10px;
   }
+
   table,
   th,
   td {
@@ -284,5 +286,6 @@ button:hover {
     padding: 0 5px;
     /* Adds padding on the very edges for small screens */
   }
-}</style>
+}
+</style>
 

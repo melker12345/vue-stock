@@ -12,7 +12,7 @@
 </template>
 <script>
 export default {
-  name: 'Navbar',
+    name: 'Navbar',
     methods: {
         toggleTheme() {
             const currentTheme = document.body.getAttribute('data-theme');
@@ -26,7 +26,6 @@ export default {
 </script>
 
 <style>
-
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -34,7 +33,7 @@ export default {
     padding: 10px 20px;
     background-color: var(--navbar-bg-color);
     color: var(--navbar-text-color);
-    
+
 }
 
 /* Navigation Links */
@@ -56,20 +55,20 @@ export default {
 }
 
 #theme-toggle {
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s, color 0.3s;
-  font-size: 32px;
-  margin-left: 2rem;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+    font-size: 32px;
+    margin-left: 2rem;
 
 }
 
 #theme-toggle:hover {
-  background-color: var(--main-bg-color);
-  color: var(--main-text-color);
+    background-color: var(--main-bg-color);
+    color: var(--main-text-color);
 }
 
 .nav-button li {
@@ -109,6 +108,4 @@ export default {
 .nav-logo svg {
     margin-right: 10px;
 }
-
-
 </style>

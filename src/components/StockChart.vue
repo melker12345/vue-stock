@@ -6,7 +6,6 @@
       <div ref="chartContainer"></div>
     </div>
   </div>
-
 </template>
 <script>
 import Highcharts from 'highcharts/highstock';
@@ -20,7 +19,7 @@ export default {
   },
   data() {
     return {
-      chart: null, 
+      chart: null,
     };
   },
   mounted() {
@@ -41,9 +40,9 @@ export default {
       return historicalData.map(item => {
         return [
           new Date(item.date).getTime(),
-          item.close // Assuming you want to chart the closing price
+          item.close 
         ];
-      }).reverse(); // Ensure the data is in chronological order
+      }).reverse(); 
     },
     createChart(chartData, symbol) {
       if (this.chart) {
@@ -77,10 +76,11 @@ export default {
 
 }
 
-body{
+body {
   background-color: var(--main-bg-color);
   color: var(--main-text-color);
 }
+
 .chart-container {
 
   margin-top: 3rem;

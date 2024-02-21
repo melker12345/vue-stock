@@ -1,9 +1,9 @@
-
 :root {
-  font-family: 'Segoe UI','Segoe UI Black', Roboto,
-  Helvetica, Arial;
-  
+  font-family: 'Segoe UI', 'Segoe UI Black', Roboto,
+    Helvetica, Arial;
+
 }
+
 body {
   margin: 0;
   background-color: var(--main-bg-color);
@@ -20,7 +20,7 @@ body {
   --navbar-text-color: #333333;
   --button-hover-bg-color: #3d8e40;
   --button-hover-text-color: #3d8e40;
-  
+
 }
 
 /* Dark theme overrides */
@@ -34,7 +34,8 @@ body {
   --button-hover-bg-color: #333333;
   --button-hover-text-color: #3d8e40;
 }
-*{
+
+* {
   overflow-x: hidden;
   box-sizing: border-box;
   margin: 0;
@@ -43,12 +44,13 @@ body {
 
 
 }
-img{
+
+img {
   width: 24px;
   height: 24px;
-} 
+}
 
-button{
+button {
   cursor: pointer;
   border: none;
   outline: none;
@@ -65,11 +67,7 @@ button{
 #app {
   width: 100vw;
   height: auto;
-  margin:  auto;
+  margin: auto;
   padding: 0;
   text-align: center;
 }
-
-
-
-

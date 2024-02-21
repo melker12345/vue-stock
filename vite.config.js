@@ -1,5 +1,5 @@
-import { defineConfig } from 'vite';
-import vue from '@vitejs/plugin-vue';
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
   plugins: [vue()],
@@ -9,8 +9,8 @@ export default defineConfig({
       '/api': {
         target: 'https://www.alphavantage.co', // Target API base URL
         changeOrigin: true, // Needed for virtual hosted sites
-        rewrite: (path) => path.replace(/^\/api/, ''), // Rewrite the path: remove '/api'
-      },
-    },
-  },
-});
+        rewrite: path => path.replace(/^\/api/, '') // Rewrite the path: remove '/api'
+      }
+    }
+  }
+})

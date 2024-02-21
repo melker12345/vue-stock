@@ -37,18 +37,16 @@ export default {
       incomeAndMetrics: [],
 
       indexChanges: [], // Use an array to store objects with index data
-      indexList: ['^OMXS30', '^NDX', '^SPX', '^DJSH'] //  indexes Stockholm, Dow Jones, Nasdaq, S&P 500, Dow Jones Shanghai
+      indexList: ['^OMXS30', '^NDX', '^SPX', '^DJSH'] // indexes Stockholm, Dow Jones, Nasdaq, S&P 500, Dow Jones Shanghai
     };
   },
 
   methods: {
     handleDataFetched(data) {
       this.incomeAndMetrics = data;
-      console.log(this.incomeAndMetrics, 'incomeAndMetrics: dashboard.vue'); // in Dashboard.vue this currently logs the right data from fetch.vue thto the console but still no table is displayed
     },
     async fetchIndex() {
       try {
-        // Initialize an empty array to store the formatted data
         const formattedIndexChanges = [];
 
         for (const index of this.indexList) {
@@ -56,16 +54,13 @@ export default {
           let data = response.data[0];
           let changesPercentage = data.changesPercentage.toFixed(2);
 
-          // Prepend a plus sign for positive changes
           if (changesPercentage > 0) {
             changesPercentage = '+' + changesPercentage;
           }
-
           // Push an object with both symbol and formatted change percentage
           formattedIndexChanges.push({ symbol: data.symbol.slice(1), change: changesPercentage + '%' });
         }
 
-        // Update the Vue data property
         this.indexChanges = formattedIndexChanges;
 
       } catch (error) {
@@ -86,28 +81,27 @@ export default {
   
 <style scoped>
 body {
-    background-color: var(--main-bg-color);
-    color: var(--main-text-color);
+  background-color: var(--main-bg-color);
+  color: var(--main-text-color);
 }
 
 .dashBoard-header {
-    height: 2rem;
-    margin: 1rem;
+  height: 2rem;
+  margin: 1rem;
 }
 
 .dashBoard-header h4 {
-    padding: 0;
+  padding: 0;
 }
 
 .dashBoard {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: nowrap;
-    flex-direction: column;
-    padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  padding: 20px;
 }
-
 
 .indexChanges>ul {
   display: flex;
@@ -125,27 +119,18 @@ body {
   justify-content: center;
 
 }
+
 .indexChanges {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
 }
 
-/* Logo Styles */
-
 * {
-
   box-sizing: border-box;
 }
 
-body {
-  background-color: var(--main-bg-color);
-  color: var(--main-text-color);
-}
-
-
-/* SVG Icon Styles */
 svg {
   width: 24px;
   height: 24px;

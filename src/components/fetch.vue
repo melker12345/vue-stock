@@ -19,7 +19,6 @@ export default {
             IncomeAndMetrics: [],
             stocks: [],
             error: null,
-            // Remember to move the API key to a more secure place, like environment variables or server-side handling
             apikey: "1z3Eat6B3MbUU0ayvXDBXEt4D82W1Zmo",
         });
 
@@ -83,7 +82,7 @@ export default {
             }
         };
 
-        // Combine data from different sources
+        // Combine data from different sources 
         const combineData = (incomeData, metricsData, discountedCashFlow) => {
             const maxLength = Math.max(incomeData.length, metricsData.length, discountedCashFlow.length);
             return Array.from({ length: maxLength }, (_, i) => {
@@ -118,7 +117,7 @@ export default {
             });
         };
 
-       
+
         const fetchAndDisplayData = async () => {
             try {
                 const incomeData = await fetchApiData(`v3/income-statement/${state.ticker}?period=annually`);
@@ -131,7 +130,7 @@ export default {
 
                 // Update the stocks state with the processed data
                 state.stocks.push(...state.IncomeAndMetrics);
-                    emit('data-fetched', state.stocks);
+                emit('data-fetched', state.stocks);
             } catch (error) {
                 state.error = error;
             }
@@ -183,6 +182,7 @@ export default {
     background-color: #3a99ff;
     cursor: pointer;
 }
+
 .fetch-btn:hover {
     background-color: #3488e1;
 }
