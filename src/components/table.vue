@@ -3,15 +3,13 @@
     <div class="stock-table-container" v-for="(stockList, index) in stocks" :key="index">
       <div class="responsive-table">
         <div class="btn-con">
-          <button @click="toggleTable(stockList[0].Symbol)" :aria-label="'Toggle ' + stockList[0].Symbol + ' Table'">
+          <button @click="toggleTable(stockList[0].Symbol)">
             {{ isMinimized[stockList[0].Symbol] ? 'Maximize' : 'Minimize' }}
           </button>
-          <button @click="addToLocalStorage(stockList)"
-            :aria-label="'Add ' + stockList[0].Symbol + ' to Local Storage'">Add to Local</button>
-          <button @click="removeFromLocalStorage(stockList[0].Symbol)"
-            :aria-label="'Remove ' + stockList[0].Symbol + ' from Local Storage'">Remove Local</button>
+          <button @click="addToLocalStorage(stockList)">Add to Local</button>
+          <button @click="removeFromLocalStorage(stockList[0].Symbol)">Remove Local</button>
         </div>
-
+        
         <!-- Minimized version of the table -->
         <table v-if="isMinimized[stockList[0].Symbol]" class="stock-table-minimized">
           <thead>
@@ -41,13 +39,17 @@
           <thead>
             <tr>
               <th>{{ stockList[0].Symbol }}</th>
-              <th v-for="report in stockList" :key="report.Date">{{ report.Date }}</th>
+              <th v-for="report in stockList" :key="report.Date">
+                {{ report.Date }}
+              </th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(value, key) in stockList[0]" :key="key">
               <td>{{ key }}</td>
-              <td v-for="report in stockList" :key="report.Date">{{ formatNumber(report[key]) }}</td>
+              <td v-for="report in stockList" :key="report.Date">
+                {{ formatNumber(report[key]) }}
+              </td>
             </tr>
           </tbody>
         </table>
@@ -72,9 +74,10 @@ export default {
 
     function mergeStocks() {
       const savedStocks = JSON.parse(localStorage.getItem('savedStocks')) || [];
-      const propStocks = props.incomeAndMetrics;
+      const propStocks = [...props.incomeAndMetrics];
+      
+      // Ensure only unique stocks based on Symbol are merged
       const merged = [...savedStocks];
-
       propStocks.forEach(stockList => {
         const symbol = stockList[0]?.Symbol;
         if (!merged.some(stock => stock[0]?.Symbol === symbol)) {
@@ -85,14 +88,10 @@ export default {
       state.stocks = merged;
     }
 
-    // Watcher for props.incomeAndMetrics to handle updates
-    watch(() => props.incomeAndMetrics, (newValue, oldValue) => {
-      if (newValue !== oldValue) {
-        mergeStocks();
-      }
+    watch(() => props.incomeAndMetrics, () => {
+      mergeStocks();
     }, { deep: true, immediate: true });
 
-    // Load stocks from localStorage and merge with props on mount
     onMounted(() => {
       mergeStocks();
     });
@@ -104,10 +103,10 @@ export default {
     function addToLocalStorage(stockList) {
       try {
         let savedStocks = JSON.parse(localStorage.getItem('savedStocks')) || [];
-        // Check if the stock is already in localStorage to prevent duplicates
         if (!savedStocks.some(stock => stock[0].Symbol === stockList[0].Symbol)) {
           savedStocks.push(stockList);
           localStorage.setItem('savedStocks', JSON.stringify(savedStocks));
+          mergeStocks(); // Refresh the stocks after updating localStorage
         }
       } catch (e) {
         console.error('Error saving to localStorage', e);
@@ -119,8 +118,7 @@ export default {
         let savedStocks = JSON.parse(localStorage.getItem('savedStocks')) || [];
         savedStocks = savedStocks.filter(stock => stock[0].Symbol !== symbol);
         localStorage.setItem('savedStocks', JSON.stringify(savedStocks));
-        // Refresh the stocks displayed to reflect the removal
-        mergeStocks(); // Corrected to call mergeStocks
+        mergeStocks(); // Refresh the stocks after removal
       } catch (e) {
         console.error('Error removing from localStorage', e);
       }
@@ -142,10 +140,9 @@ export default {
       addToLocalStorage,
       removeFromLocalStorage,
       formatNumber,
-      // Optionally expose this if you want a manual refresh mechanism
     };
-  }
-}
+  },
+};
 </script>
 
 
