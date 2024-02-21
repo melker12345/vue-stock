@@ -1,14 +1,5 @@
 <template>
-  <header class="navbar">
-    <div>
-      <button id="theme-toggle" @click="toggleTheme()">◑</button>
-    </div>
-
-    <ul class="nav-button">
-      <li><router-link to="/">Home</router-link></li>
-      <li><router-link to="/about">About</router-link></li>
-    </ul>
-  </header>
+  <Navbar />
 
   <div class="content">
     <div class="markdown">
@@ -65,8 +56,14 @@
 </template>
   
 <script>
+import Navbar from './navbar.vue';
+
 export default {
   name: 'About',
+  components: {
+    Navbar
+  },
+
   data() {
     return {
       // Your data here
@@ -93,58 +90,7 @@ export default {
   
 
 <style scoped>
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-  background-color: var(--navbar-bg-color);
-  color: var(--navbar-text-color);
-}
 
-.nav-button {
-  display: flex;
-  gap: 20px;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  color: var(--navbar-text-color)
-}
-
-.nav-button li {
-  padding: 10px 20px;
-  background-color: var(--button-bg-color);
-  color: var(--button-text-color);
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.nav-button li a {
-  text-decoration: none;
-  color: var(--button-text-color);
-}
-
-.nav-button li:hover {
-  background-color: var(--button-hover-bg-color);
-  color: var(--button-hover-text-color);
-}
-
-#theme-toggle {
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s, color 0.3s;
-  font-size: 32px;
-}
-
-#theme-toggle:hover {
-  background-color: var(--main-bg-color);
-  color: var(--main-text-color);
-}
 
 .content {
   display: flex;
@@ -193,23 +139,22 @@ export default {
   text-decoration: underline;
 }
 
-@media screen and (max-width: 1500px) {
-  .indexChanges > ul {
-    display: flex;
+@media screen and (max-width: 700px) {
+  * {
+    margin: 0;
+    padding: 0;
+   }
+  .content{
     width: 100%;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: nowrap;
   }
+  .markdown {
+  padding: 10px;
+  text-align: left;
+  border-radius: 10px;
+  width: 100%;
+  background-color: var(--navbar-bg-color);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 10px;
 }
-
-@media screen and (max-width: 1500px) {
-  .indexChanges>ul {
-    display: flex;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: nowrap;
-  }
 }
 </style>

@@ -2,14 +2,29 @@
   <div>
     <div class="stock-table-container" v-for="(stockList, index) in stocks" :key="index">
       <div class="responsive-table">
-        <div class="btn-con">
+        <button class="hamburger-btn" @click="toggleMenu" v-if="isMobile">
+          &#9776; <!-- Represents the hamburger icon -->
+        </button>
+
+        <!-- Hamburger Menu Content -->
+        <div v-if="menuOpen && isMobile" class="hamburger-menu">
           <button @click="toggleTable(stockList[0].Symbol)">
             {{ isMinimized[stockList[0].Symbol] ? 'Maximize' : 'Minimize' }}
           </button>
           <button @click="addToLocalStorage(stockList)">Add to Local</button>
           <button @click="removeFromLocalStorage(stockList[0].Symbol)">Remove Local</button>
+          <button @click="viewChart(stockList[0].Symbol)">View Chart</button>
+          <!-- Add more links or content as needed -->
         </div>
-        
+        <div class="btn-con" v-if="!isMobile">
+          <button @click="toggleTable(stockList[0].Symbol)">
+            {{ isMinimized[stockList[0].Symbol] ? 'Maximize' : 'Minimize' }}
+          </button>
+          <button @click="addToLocalStorage(stockList)">Add to Local</button>
+          <button @click="removeFromLocalStorage(stockList[0].Symbol)">Remove Local</button>
+          <button @click="viewChart(stockList[0].Symbol)">View Chart</button>
+        </div>
+
         <!-- Minimized version of the table -->
         <table v-if="isMinimized[stockList[0].Symbol]" class="stock-table-minimized">
           <thead>
@@ -59,7 +74,7 @@
 </template>
 
 <script>
-import { reactive, toRefs, watch, onMounted } from 'vue';
+import { reactive, computed, ref, toRefs, watch, onMounted } from 'vue';
 
 export default {
   name: 'TableComponent',
@@ -67,6 +82,17 @@ export default {
     incomeAndMetrics: Array,
   },
   setup(props) {
+    const menuOpen = ref(false);
+    const isMobile = computed(() => window.innerWidth < 768);
+
+    function toggleMenu() {
+      menuOpen.value = !menuOpen.value;
+    }
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 768) {
+        menuOpen.value = false; // Automatically close the menu on resize if the screen is larger than 768px
+      }
+    });
     const state = reactive({
       isMinimized: {},
       stocks: [], // Initialize as an empty array
@@ -75,7 +101,7 @@ export default {
     function mergeStocks() {
       const savedStocks = JSON.parse(localStorage.getItem('savedStocks')) || [];
       const propStocks = [...props.incomeAndMetrics];
-      
+
       // Ensure only unique stocks based on Symbol are merged
       const merged = [...savedStocks];
       propStocks.forEach(stockList => {
@@ -140,79 +166,86 @@ export default {
       addToLocalStorage,
       removeFromLocalStorage,
       formatNumber,
+      menuOpen,
+      toggleMenu, 
+      isMobile,
     };
+  },
+  methods: {
+    viewChart(symbol) {
+      this.$router.push(`/chart/${symbol}`);
+    },
   },
 };
 </script>
 
-
-<!-- table.vue -->
 <style scoped>
-.responsive-table {
-  overflow-x: auto;
-  /* Allows table to scroll horizontally when necessary */
-}
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background-color: var(--main-bg-color);
-  color: var(--main-text-color);
-  border-collapse: collapse;
 }
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  border: 1px solid black;
-
-}
-
-.stock-table-container {
+.responsive-table {
   overflow-x: auto;
 }
 
-.stock-table-minimized {
-  width: 775px;
+.stock-table-container {
+  margin: 20px 0;
 }
 
-.stock-table {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  width: 775px;
-  margin: auto;
-
-}
-
-thead {
+/* Table Styles */
+table {
   width: 100%;
+  border-collapse: collapse;
+  font-size: 10px;
 }
 
-th {
-  max-width: 225px;
-  width: fit-content;
-  padding: 8px;
-  text-align: center;
-  border: 1px solid black;
-}
-
+th,
 td {
-  max-width: 225px;
-  padding: 8px;
   text-align: center;
-  border: 1px solid black;
+  padding: 12px;
+  border: 1px solid #757575;
+  font-size: 18px;
 }
 
+/* First column bold in the stock table */
 .stock-table td:first-child {
   font-weight: bold;
+}
+.hamburger-btn {
+  display: none; /* Hidden by default */
+  background-color: var(--navbar-bg-color);
+  color: var(--main-text-color); /* White color for the icon */
+  padding: 10px 15px; /* Padding */
+  border: none; /* No border */
+  cursor: pointer; /* Cursor pointer */
+}
+
+.hamburger-menu {
+  font-weight: bold;
+  font-size: large;
+  display: block; /* Show the menu */
+  position: absolute; /* Positioning */
+  background-color: var(--navbar-bg-color);
+  min-width: 160px; /* Minimum width */
+  box-shadow: 0px 8px 32px 0px rgba(0, 0, 0, 0.978); 
+  z-index: 1; /* Ensure it's above other content */
+  
+}
+
+.hamburger-menu a {
+  color: black; /* Text color */
+  padding: 12px 16px; /* Padding */
+  text-decoration: none; /* No underline */
+  display: block; /* Block level elements */
+}
+
+.hamburger-menu a:hover {
+  background-color: #ddd; /* Light grey background on hover */
 }
 
 
 button {
-  margin: 20px;
   padding: 10px 15px;
   background-color: var(--button-bg-color);
   color: var(--button-text-color);
@@ -220,36 +253,36 @@ button {
   cursor: pointer;
   border-radius: 5px;
   transition: background-color 0.3s, color 0.3s;
-
+  margin: 10px;
+  font-family: inherit;
 }
 
-button:nth-child(1) {
-  margin: 0;
+button:hover {
+  background-color: var(--button-hover-bg-color);
 }
 
-button:nth-last-child(1) {
-  margin: 0;
-}
-
-@media (max-width: 600px) {
-
+@media (max-width: 768px) {
+  .hamburger-btn {
+    display: block; 
+  }
   th,
   td {
-    display: block;
-    text-align: right;
+    padding: 10px;
   }
-
-  td::before {
-    /* Display the content of the "data-label" attribute as a pseudo-element before each cell */
-    content: attr(data-label);
-    float: left;
-    font-weight: bold;
-  }
-
-  /* Adjustments for smaller screens */
-  .responsive-table {
-    overflow-y: hidden;
+  table,
+  th,
+  td {
+    font-size: 14px;
   }
 }
-</style>
+
+/* Additional responsiveness for very small screens */
+@media (max-width: 480px) {
+
+  .stock-table-container,
+  .responsive-table {
+    padding: 0 5px;
+    /* Adds padding on the very edges for small screens */
+  }
+}</style>
 

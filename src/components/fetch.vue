@@ -118,8 +118,7 @@ export default {
             });
         };
 
-        // Main function to fetch and display data
-        // https://financialmodelingprep.com/api/v4/advanced_discounted_cash_flow?symbol=AAPL&apikey=1z3Eat6B3MbUU0ayvXDBXEt4D82W1Zmo
+       
         const fetchAndDisplayData = async () => {
             try {
                 const incomeData = await fetchApiData(`v3/income-statement/${state.ticker}?period=annually`);
@@ -132,7 +131,7 @@ export default {
 
                 // Update the stocks state with the processed data
                 state.stocks.push(...state.IncomeAndMetrics);
-                emit('data-fetched', state.stocks);
+                    emit('data-fetched', state.stocks);
             } catch (error) {
                 state.error = error;
             }
@@ -159,13 +158,12 @@ export default {
 .input-field {
     outline: none;
     height: 3rem;
-    width: 10rem;
+    width: 15rem;
+    border: 1px solid #727272;
+    border-right: none;
     border-radius: 15px 0px 0px 15px;
     padding: 8px;
     font-size: 18px;
-    font-weight: 500;
-    font-family: 'Inter', sans-serif;
-    border: 1px solid #727272;
     background-color: var(--main-bg-color);
     color: var(--main-text-color);
 
@@ -184,5 +182,8 @@ export default {
     outline: none;
     background-color: #3a99ff;
     cursor: pointer;
+}
+.fetch-btn:hover {
+    background-color: #3488e1;
 }
 </style>

@@ -6,42 +6,46 @@
       </li>
     </ul>
   </div>
-  <header class="navbar">
-    <div>
-      <button id="theme-toggle" @click="toggleTheme()">◑</button>
+
+  <Navbar />
+  <div class="dashBoard">
+    <div class="fetch">
+      <fetch @data-fetched="handleDataFetched" />
     </div>
-
-    <ul class="nav-button">
-      <li><router-link to="/">Home</router-link></li>
-      <li><router-link to="/about">About</router-link></li>
-    </ul>
-  </header>
-
-  <div>
-    <dashboard />
+    <div>
+      <table-component :income-and-metrics="incomeAndMetrics" />
+    </div>
   </div>
 </template>
   
 <script>
-import Dashboard from './Dashboard.vue';
 import axios from 'axios';
-
+import Fetch from './fetch.vue';
+import TableComponent from './table.vue';
+import Navbar from './navbar.vue';
 
 export default {
   name: 'Home',
   components: {
-    fetch,
-    Dashboard
+    Fetch,
+    TableComponent,
+    Navbar
   },
   // the fetchIndex should fetch all items in the indexList
   data() {
     return {
+      incomeAndMetrics: [],
+
       indexChanges: [], // Use an array to store objects with index data
       indexList: ['^OMXS30', '^NDX', '^SPX', '^DJSH'] //  indexes Stockholm, Dow Jones, Nasdaq, S&P 500, Dow Jones Shanghai
     };
   },
 
   methods: {
+    handleDataFetched(data) {
+      this.incomeAndMetrics = data;
+      console.log(this.incomeAndMetrics, 'incomeAndMetrics: dashboard.vue'); // in Dashboard.vue this currently logs the right data from fetch.vue thto the console but still no table is displayed
+    },
     async fetchIndex() {
       try {
         // Initialize an empty array to store the formatted data
@@ -58,7 +62,7 @@ export default {
           }
 
           // Push an object with both symbol and formatted change percentage
-          formattedIndexChanges.push({ symbol: data.symbol.slice(1), change: changesPercentage + '%'});
+          formattedIndexChanges.push({ symbol: data.symbol.slice(1), change: changesPercentage + '%' });
         }
 
         // Update the Vue data property
@@ -67,14 +71,6 @@ export default {
       } catch (error) {
         console.error("Error fetching data:", error);
       }
-    },
-
-
-    toggleTheme() {
-      const currentTheme = document.body.getAttribute('data-theme');
-      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-      document.body.setAttribute('data-theme', newTheme);
-      localStorage.setItem('theme', newTheme);
     },
     checkTheme() {
       const currentTheme = localStorage.getItem('theme') || 'light';
@@ -89,77 +85,29 @@ export default {
 </script>
   
 <style scoped>
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-  background-color: var(--navbar-bg-color);
-  color: var(--navbar-text-color);
+body {
+    background-color: var(--main-bg-color);
+    color: var(--main-text-color);
 }
 
-/* Navigation Links */
-.nav-links {
-  width: fit-content;
-  display: flex;
-  gap: 20px;
+.dashBoard-header {
+    height: 2rem;
+    margin: 1rem;
 }
 
-/* Navigation Buttons */
-.nav-button {
-  display: flex;
-  gap: 20px;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  color: var(--navbar-text-color)
+.dashBoard-header h4 {
+    padding: 0;
 }
 
-.nav-button li {
-
-  width: fit-content;
-  padding: 10px 20px;
-  background-color: var(--button-bg-color);
-  color: var(--button-text-color);
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s, color 0.3s;
+.dashBoard {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    padding: 20px;
 }
 
-.nav-button li a {
-  width: fit;
-  text-decoration: none;
-  color: var(--button-text-color);
-}
-
-.nav-button li:hover {
-  background-color: var(--button-hover-bg-color);
-  color: var(--button-hover-text-color);
-}
-
-.nav-logo {
-  display: flex;
-  align-items: center;
-}
-
-.nav-logo a {
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  color: var(--navbar-text-color);
-}
-
-.nav-logo svg {
-  margin-right: 10px;
-}
-
-.indexChanges {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-}
 
 .indexChanges>ul {
   display: flex;
@@ -177,36 +125,25 @@ export default {
   justify-content: center;
 
 }
+.indexChanges {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
 
 /* Logo Styles */
 
 * {
-  margin: 0;
-  padding: 0;
+
   box-sizing: border-box;
 }
 
 body {
-  font-family: inherit, sans-serif;
   background-color: var(--main-bg-color);
   color: var(--main-text-color);
 }
 
-/* Theme Toggle Button */
-#theme-toggle {
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s, color 0.3s;
-  font-size: 32px;
-}
-
-#theme-toggle:hover {
-  background-color: var(--main-bg-color);
-  color: var(--main-text-color);
-}
 
 /* SVG Icon Styles */
 svg {
